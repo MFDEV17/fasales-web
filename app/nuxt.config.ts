@@ -1,5 +1,11 @@
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/sanity', '@nuxtjs/tailwindcss'],
+  modules: [
+    '@nuxtjs/sanity',
+    '@nuxtjs/tailwindcss',
+    '@vueuse/nuxt',
+    '@nuxt/image',
+    '@pinia/nuxt',
+  ],
   sanity: {
     projectId: process.env.NUXT_SANITY_PROJECT_ID,
     dataset: process.env.NUXT_SANITY_DATASET,

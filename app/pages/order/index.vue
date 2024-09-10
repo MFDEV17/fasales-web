@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useFetch } from "@vueuse/core";
+import { useFetch } from '@vueuse/core'
 
 const { data, isFetching, error, isFinished } = useFetch(
-  "https://jsonplaceholder.typicode.com/todos/",
+  'https://jsonplaceholder.typicode.com/todos/',
 )
   .get()
-  .json();
+  .json()
 </script>
 
 <template>
