@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/image',
     '@pinia/nuxt',
+    'radix-vue/nuxt',
   ],
   sanity: {
     projectId: process.env.NUXT_SANITY_PROJECT_ID,
@@ -64,3 +65,4 @@ export default defineNuxtConfig({
     },
   },
 })
+
