@@ -9,6 +9,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.1",
     "@sanity/types": "^3.50.0",
     "@types/node": "^18.17.14",
     "nuxt": "^3.12.3",
