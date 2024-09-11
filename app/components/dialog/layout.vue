@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { useFetch } from "@vueuse/core";
-import type { Category } from "~/types/Category";
+import type { Category } from '~/types/Category'
 
-const dialog = useDialogStore();
-const { dialogType, dialogStep } = storeToRefs(dialog);
+const dialog = useDialogStore()
+const { dialogType, dialogStep } = storeToRefs(dialog)
 
-const { data, isFinished } = useFetch<Category[]>(
-  "http://localhost:3001/categories",
-)
-  .get()
-  .json();
+const query = groq`*[_type == 'categories']{_id, categoryName, singleName, categoryDefWeight, categoryImg}`
+const { data: categories } = await useSanityQuery<Category[]>(query)
+
+const goNextStep = (category: Category) => {
+  dialog.setCategoryRef(category)
+  dialog.goNextStep()
+}
 </script>
 
 <template>
@@ -35,9 +36,9 @@ const { data, isFinished } = useFetch<Category[]>(
             </div>
             <p class="text-telegram-hint font-medium">
               {{
-                dialogType == "create"
-                  ? "Создание товара"
-                  : "Редактирование товара"
+                dialogType == 'create'
+                  ? 'Создание товара'
+                  : 'Редактирование товара'
               }}
             </p>
             <DialogClose as-child>
@@ -51,17 +52,19 @@ const { data, isFinished } = useFetch<Category[]>(
         <div
           class="text-telegram-text grid grid-cols-3 place-content-around gap-y-6 px-3 py-6"
           v-if="dialogStep == 1 && dialogType == 'create'"
-          @click="dialog.goNextStep()"
         >
           <div
             class="flex cursor-pointer flex-col items-center space-y-2 text-sm font-medium"
-            v-for="c in data"
-            v-if="isFinished"
+            v-for="c in categories"
+            @click="goNextStep(c)"
           >
             <div class="bg-telegram-bg-primary rounded-[24px] p-4">
-              <NuxtImg :src="c.img" class="size-[60px]" />
+              <NuxtImg
+                :src="$urlFor(c.categoryImg).url()"
+                class="size-[60px]"
+              />
             </div>
-            <p class="overflow-hidden truncate">{{ c.name }}</p>
+            <p class="overflow-hidden truncate">{{ c.categoryName }}</p>
           </div>
         </div>
 

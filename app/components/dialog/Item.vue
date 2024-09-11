@@ -1,15 +1,29 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { storeItemSchema } from '~/types/StoreItem'
+
+const dialog = useDialogStore()
+const { categoryRef } = storeToRefs(dialog)
+
+const { handleSubmit } = useForm({
+  validationSchema: toTypedSchema(storeItemSchema),
+})
+
+const onSubmit = handleSubmit((val) => alert(JSON.stringify(val)))
+</script>
 
 <template>
   <div class="bg-telegram-bg-primary text-telegram-text min-h-full px-5 py-6">
     <div class="flex flex-col items-center justify-center">
-      <NuxtImg src="/sneaker.png" class="size-[92px]" />
+      <NuxtImg
+        :src="$urlFor(categoryRef.categoryImg).url()"
+        class="size-[92px]"
+      />
       <div class="mt-5 flex items-center gap-x-2 text-2xl font-semibold">
-        <h3>Кроссовки</h3>
+        <h3>{{ categoryRef.singleName || categoryRef.categoryName }}</h3>
         <IconsPencil />
       </div>
       <ul class="text-telegram-hint mt-2 space-y-1 text-center text-sm">
-        <li>Расчётный вес — 1 кг</li>
+        <li>Расчётный вес — {{ categoryRef.categoryDefWeight }} кг</li>
         <li>Комиссия за выкуп — 200 ₽</li>
       </ul>
 
@@ -61,13 +75,13 @@
       <ul
         class="text-failure mt-6 list-outside list-disc space-y-1 self-start pl-7 text-sm"
       >
-        <li>Вес должен быть в пределах 0.1-100 кг</li>
-        <li>Некорректная ссылка</li>
-        <li>Некорректная цена</li>
+        <ErrorMessage as="li" name="weight" />
+        <ErrorMessage as="li" name="productLink" />
+        <ErrorMessage as="li" name="price" />
       </ul>
 
       <div class="mt-6">
-        <form class="flex flex-col space-y-6">
+        <form class="flex flex-col space-y-6" @submit="onSubmit">
           <div class="flex items-center gap-x-3">
             <div class="space-y-1">
               <label
@@ -77,7 +91,9 @@
                 <p>Цена</p>
                 <span class="text-failure">*</span>
               </label>
-              <input
+              <Field
+                placeholder="€"
+                name="price"
                 id="price"
                 pattern="[0-9]+"
                 type="text"
@@ -89,7 +105,8 @@
               <label for="size" class="text-telegram-hint flex gap-x-1 text-sm">
                 <p>Размер</p>
               </label>
-              <input
+              <Field
+                name="size"
                 id="size"
                 class="bg-telegram-bg-secondary w-full rounded-lg p-3 font-medium outline-none"
                 pattern="[0-9]+"
@@ -97,7 +114,7 @@
                 inputmode="numeric"
               />
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="!categoryRef.categoryDefWeight">
               <label
                 for="weight"
                 class="text-telegram-hint flex gap-x-1 text-sm"
@@ -105,7 +122,9 @@
                 <p>Вес</p>
                 <span class="text-failure">*</span>
               </label>
-              <input
+              <Field
+                placeholder="кг"
+                name="weight"
                 id="weight"
                 class="bg-telegram-bg-secondary w-full rounded-lg p-3 font-medium outline-none"
               />
@@ -117,7 +136,9 @@
                 <p>Ссылка на товар</p>
                 <span class="text-failure">*</span>
               </label>
-              <input
+              <Field
+                placeholder="https://farfetch.com/..."
+                name="productLink"
                 id="link"
                 class="bg-telegram-bg-secondary w-full rounded-lg p-3 font-medium outline-none"
               />
@@ -133,8 +154,8 @@
               </p>
             </div>
           </div>
-
           <button
+            type="submit"
             class="flex items-center gap-x-2 self-center rounded-lg bg-[#00FF00] px-2.5 py-2 font-medium uppercase text-[#fff]"
           >
             <IconsCheck />

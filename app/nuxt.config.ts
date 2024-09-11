@@ -6,7 +6,11 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@pinia/nuxt',
     'radix-vue/nuxt',
+    '@vee-validate/nuxt',
   ],
+  veeValidate: {
+    autoImports: true,
+  },
   sanity: {
     projectId: process.env.NUXT_SANITY_PROJECT_ID,
     dataset: process.env.NUXT_SANITY_DATASET,
@@ -65,4 +69,3 @@ export default defineNuxtConfig({
     },
   },
 })
-

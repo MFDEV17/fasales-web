@@ -1,8 +1,11 @@
+import type { Category } from '~/types/Category'
+
 export const useDialogStore = defineStore('dialog', {
   state: () => {
     return {
       dialogType: 'create' as 'create' | 'update',
       dialogStep: 1,
+      categoryRef: null as unknown as Category,
     }
   },
   actions: {
@@ -17,6 +20,12 @@ export const useDialogStore = defineStore('dialog', {
     },
     resetDialog() {
       this.dialogStep = 1
+    },
+    setCategoryRef(category: Category) {
+      this.categoryRef = category
+    },
+    resetCategoryRef() {
+      this.categoryRef = null as unknown as Category
     },
   },
 })

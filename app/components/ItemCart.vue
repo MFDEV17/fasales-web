@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const dialog = useDialogStore();
+const dialog = useDialogStore()
 </script>
 
 <template>
