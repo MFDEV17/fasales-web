@@ -1,4 +1,7 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const { get } = useCountryData()
+await get()
+</script>
 
 <template>
   <DialogLayout>

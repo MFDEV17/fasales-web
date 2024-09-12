@@ -1,8 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
-export const deliveryMethods = defineType({
+export const deliveryMethod = defineType({
   title: 'Методы доставки',
-  name: 'deliveryMethods',
+  name: 'deliveryMethod',
   type: 'document',
   fields: [
     defineField({
@@ -25,17 +25,6 @@ export const deliveryMethods = defineType({
           name: 'range',
 
           fields: [
-            defineField({
-              title: 'Страна',
-              type: 'string',
-              name: 'countryName',
-            }),
-            defineField({
-              name: 'country',
-              title: 'Страна доставки',
-              type: 'reference',
-              to: [{type: 'countries'}],
-            }),
             defineField({
               name: 'rangeList',
               title: 'Диапазоны',

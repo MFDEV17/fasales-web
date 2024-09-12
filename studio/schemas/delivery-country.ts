@@ -10,5 +10,11 @@ export const deliveryCountry = defineType({
       type: 'string',
       name: 'deliveryCountry',
     }),
+    defineField({
+      title: 'Методы доставки',
+      name: 'deliveryMethods',
+      type: 'array',
+      of: [{type: 'deliveryMethod'}],
+    }),
   ],
 })

@@ -2,7 +2,7 @@ import blockContent from './blockContent'
 import {category} from './category'
 import {currency} from './currency'
 import {deliveryCountry} from './delivery-country'
-import {deliveryMethods} from './delivery-methods'
+import {deliveryMethod} from './delivery-methods'
 import {managers} from './managers'
 import post from './post'
 import {redemptionFee} from './redemption-fee'
@@ -14,7 +14,7 @@ export const schemaTypes = [
   category,
   currency,
   deliveryCountry,
-  deliveryMethods,
+  deliveryMethod,
   managers,
   redemptionFee,
   shop,
