@@ -35,7 +35,7 @@ await get()
                     <SelectViewport class="space-y-4 *:outline-none">
                       <SelectItem
                         :value="c._id"
-                        v-for="c in currencies?.filter(
+                        v-for="c in currencies.filter(
                           (i) => i._id !== currencyChoice?._id,
                         )"
                       >
@@ -113,9 +113,7 @@ await get()
         </div>
       </section>
 
-      <section class="space-y-2 px-3 pb-20 pt-4">
-        <ItemCart v-for=" in Array.from({length: 10})" />
-      </section>
+      <ItemCarts />
 
       <DialogCreateTrigger />
     </div>

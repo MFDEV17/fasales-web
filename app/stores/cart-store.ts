@@ -1,36 +1,57 @@
 import type { Currency } from '~/types/DefaultResponse'
 import type { DeliveryCountry, DeliveryMethod } from '~/types/DeliveryCountry'
+import type { StoreItem } from '~/types/StoreItem'
 
 export const useCartStore = defineStore('carts', () => {
   const currencyChoice = ref<Currency | null>(null)
   const countryChoice = ref<DeliveryCountry | null>(null)
   const methodChoice = ref<DeliveryMethod | null>(null)
+  const storeCarts = ref<StoreItem[]>([])
 
-  const countries = ref<DeliveryCountry[] | null>(null)
-  const methods = ref<DeliveryMethod[] | null>(null)
-  const currencies = ref<Currency[]>()
+  const countries = ref<DeliveryCountry[]>([])
+  const methods = ref<DeliveryMethod[]>([])
+  const currencies = ref<Currency[]>([])
 
-  const setCurrencies = (currencyList: Currency[]) => {
+  const addItem = (storeItem: StoreItem): void => {
+    storeCarts.value.push(storeItem)
+  }
+
+  const removeItem = (itemId: string): void => {
+    const itemIndex = storeCarts.value.findIndex((i) => i.itemId == itemId)
+    if (itemIndex >= 0) storeCarts.value.splice(itemIndex, 1)
+  }
+
+  const incrementCount = (itemId: string): void => {
+    const item = storeCarts.value.find((i) => i.itemId === itemId)
+    if (item) item.count += 1
+  }
+
+  const decrementCount = (itemId: string): void => {
+    const item = storeCarts.value.find((i) => i.itemId === itemId)
+    if (item) item.count -= 1
+  }
+
+  const setCurrencies = (currencyList: Currency[]): void => {
     currencies.value = currencyList
   }
 
-  const setMethods = (methodList: DeliveryMethod[]) => {
+  const setMethods = (methodList: DeliveryMethod[]): void => {
     methods.value = methodList
   }
 
-  const setCountries = (countriesList: DeliveryCountry[]) => {
+  const setCountries = (countriesList: DeliveryCountry[]): void => {
     countries.value = countriesList
   }
 
-  const setCurrencyChoice = (currency: Currency) => {
+  const setCurrencyChoice = (currency: Currency): void => {
     currencyChoice.value = currency
   }
 
-  const setCountryChoice = (country: DeliveryCountry) => {
+  const setCountryChoice = (country: DeliveryCountry): void => {
     countryChoice.value = country
   }
 
-  const setMethodChoice = (method: DeliveryMethod) => {
+  const setMethodChoice = (method: DeliveryMethod): void => {
     methodChoice.value = method
   }
 
@@ -41,11 +62,16 @@ export const useCartStore = defineStore('carts', () => {
     setCurrencies,
     setMethods,
     setCountries,
+    removeItem,
+    addItem,
+    incrementCount,
+    decrementCount,
 
     currencyChoice,
     countryChoice,
     methodChoice,
     currencies,
     countries,
+    storeCarts,
   }
 })
