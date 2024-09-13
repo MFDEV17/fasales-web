@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+const cartStore = useCartStore()
+
+const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
+  storeToRefs(cartStore)
+
 const { get } = useCountryData()
 await get()
 </script>
@@ -16,7 +21,7 @@ await get()
                 <SelectTrigger
                   class="text-telegram-text bg-telegram-bg-secondary group inline-flex w-[156px] items-center justify-between rounded-lg p-3 outline-none"
                 >
-                  <SelectValue placeholder="USDT" />
+                  <SelectValue :placeholder="currencyChoice?.currencyCode" />
                   <IconsArrow
                     class="stroke-telegram-hint transition-transform duration-300 group-data-[state=open]:rotate-180"
                   />
@@ -28,11 +33,13 @@ await get()
                     class="bg-telegram-bg-secondary w-[156px] rounded-b-lg px-3 pb-3 pt-4"
                   >
                     <SelectViewport class="space-y-4 *:outline-none">
-                      <SelectItem value="c1">
-                        <SelectItemText>USDT</SelectItemText>
-                      </SelectItem>
-                      <SelectItem value="c2">
-                        <SelectItemText>USDT</SelectItemText>
+                      <SelectItem
+                        :value="c._id"
+                        v-for="c in currencies?.filter(
+                          (i) => i._id !== currencyChoice?._id,
+                        )"
+                      >
+                        <SelectItemText>{{ c.currencyCode }}</SelectItemText>
                       </SelectItem>
                     </SelectViewport>
                   </SelectContent>
@@ -46,7 +53,7 @@ await get()
                 <SelectTrigger
                   class="text-telegram-text bg-telegram-bg-secondary group inline-flex w-[156px] items-center justify-between rounded-lg p-3 outline-none"
                 >
-                  <SelectValue placeholder="Россия" />
+                  <SelectValue :placeholder="countryChoice?.deliveryCountry" />
                   <IconsArrow
                     class="stroke-telegram-hint transition-transform duration-300 group-data-[state=open]:rotate-180"
                   />
@@ -58,11 +65,13 @@ await get()
                     class="bg-telegram-bg-secondary w-[156px] rounded-b-lg px-3 pb-3 pt-4"
                   >
                     <SelectViewport class="space-y-4 *:outline-none">
-                      <SelectItem value="c1">
-                        <SelectItemText>USDT</SelectItemText>
-                      </SelectItem>
-                      <SelectItem value="c2">
-                        <SelectItemText>USDT</SelectItemText>
+                      <SelectItem
+                        :value="c._id"
+                        v-for="c in countries?.filter(
+                          (i) => i._id !== countryChoice?._id,
+                        )"
+                      >
+                        <SelectItemText>{{ c.deliveryCountry }}</SelectItemText>
                       </SelectItem>
                     </SelectViewport>
                   </SelectContent>
@@ -74,15 +83,19 @@ await get()
             <p class="font-medium">Способ доставки</p>
 
             <div class="space-y-3">
-              <div class="flex items-center gap-x-2">
+              <div
+                class="flex items-center gap-x-2"
+                v-for="m in countryChoice?.deliveryMethods"
+              >
                 <CheckboxRoot
+                  :checked="methodChoice?._key === m._key"
                   class="border-telegram-btn flex size-4 items-center justify-center rounded-full border-2"
                 >
                   <CheckboxIndicator
                     class="bg-telegram-btn size-2 rounded-full"
                   />
                 </CheckboxRoot>
-                <span>Курьером на дом</span>
+                <span>{{ m.methodName }}</span>
               </div>
 
               <div class="flex items-center gap-x-2">

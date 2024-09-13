@@ -15,9 +15,13 @@ export default function useCountryData() {
     if (data.value) {
       const firstCountry = data.value.countries[0]
 
+      store.setCountries(data.value.countries)
+      store.setMethods(firstCountry.deliveryMethods)
+      store.setCurrencies(data.value.currencies)
+
       store.setCountryChoice(firstCountry)
       store.setMethodChoice(firstCountry.deliveryMethods[0])
-      store.setCurrency(data.value.currencies[0])
+      store.setCurrencyChoice(data.value.currencies[0])
     }
   }
 

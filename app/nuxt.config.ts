@@ -11,6 +11,7 @@ export default defineNuxtConfig({
   veeValidate: {
     autoImports: true,
   },
+  devtools: { enabled: true },
   sanity: {
     projectId: process.env.NUXT_SANITY_PROJECT_ID,
     dataset: process.env.NUXT_SANITY_DATASET,

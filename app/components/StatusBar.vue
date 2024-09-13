@@ -3,5 +3,7 @@ const store = useCartStore()
 </script>
 
 <template>
-  <div class="p-4 bg-black text-telegram-link">{{ store.currencyChoice }}</div>
+  <div class="p-4 bg-black text-telegram-link">
+    {{ store.currencyChoice?.currencyCode }}
+  </div>
 </template>
