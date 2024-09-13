@@ -38,6 +38,7 @@ export interface RangeList {
 export interface Currency {
   _id: string
   _updatedAt: Date
+  currencySymbol: string
   currencyCode: string
   currencyName: string
   _createdAt: Date
