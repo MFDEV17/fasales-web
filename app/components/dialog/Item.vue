@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { storeItemSchema } from '~/types/StoreItem'
+import { randomUUID } from 'crypto'
+import { storeItemSchema, type StoreItem } from '~/types/StoreItem'
 
 const dialog = useDialogStore()
 const { categoryRef } = storeToRefs(dialog)
@@ -8,7 +9,17 @@ const { handleSubmit } = useForm({
   validationSchema: toTypedSchema(storeItemSchema),
 })
 
-const onSubmit = handleSubmit((val) => alert(JSON.stringify(val)))
+const cartStore = useCartStore()
+
+const onSubmit = handleSubmit((val) => {
+  const item: StoreItem = {
+    ...val,
+    itemId: randomUUID(),
+    categoryRef: categoryRef.value,
+  }
+
+  cartStore.addItem(item)
+})
 </script>
 
 <template>
