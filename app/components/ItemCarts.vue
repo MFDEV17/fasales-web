@@ -58,7 +58,12 @@ const { storeCarts, currencyChoice } = storeToRefs(carts)
               {{ cart.count }}
             </button>
             <button
-              @click="(e) => e.stopPropagation()"
+              @click="
+                (e) => {
+                  e.stopPropagation()
+                  carts.removeItem(cart.itemId)
+                }
+              "
               class="inline-flex size-8 items-center justify-center rounded-lg bg-[#F25A5A]"
             >
               <IconsTrash />

@@ -55,6 +55,30 @@ export const useCartStore = defineStore('carts', () => {
     methodChoice.value = method
   }
 
+  const calculateResult = () => {
+    let itemsPriceSumEuro = 0
+    let itemsPriceSumUserCurrency
+    let itemWeightSum = 0
+
+    for (const prod of storeCarts.value) {
+      itemsPriceSumEuro += prod.price
+
+      if (prod.weight) {
+        itemWeightSum += prod.weight
+      }
+    }
+
+    if (currencyChoice.value) {
+      itemsPriceSumUserCurrency =
+        itemsPriceSumEuro * currencyChoice.value.amountToEuro
+    }
+
+    return {
+      itemsPriceSumEuro,
+      itemWeightSum,
+    }
+  }
+
   return {
     setCountryChoice,
     setCurrencyChoice,
@@ -66,6 +90,7 @@ export const useCartStore = defineStore('carts', () => {
     addItem,
     incrementCount,
     decrementCount,
+    calculateResult,
 
     currencyChoice,
     countryChoice,

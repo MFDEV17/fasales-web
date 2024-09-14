@@ -3,17 +3,16 @@ import { storeItemSchema, type StoreItem } from '~/types/StoreItem'
 
 const dialog = useDialogStore()
 const { categoryRef } = storeToRefs(dialog)
+const cartStore = useCartStore()
 
 const { handleSubmit } = useForm({
   validationSchema: toTypedSchema(storeItemSchema),
 })
 
-const cartStore = useCartStore()
-
 const onSubmit = handleSubmit((val) => {
   const item: StoreItem = {
     ...val,
-    itemId: 'id',
+    itemId: useId(),
     categoryRef: categoryRef.value,
   }
 
