@@ -6,32 +6,35 @@ const { storeCarts, currencyChoice } = storeToRefs(carts)
 
 <template>
   <section class="space-y-2 px-3 pb-20 pt-4">
-    <DialogTrigger as-child v-for="cart in storeCarts">
+    <DialogTrigger as-child v-for="cart in storeCarts" class="cursor-pointer">
       <div
         class="bg-telegram-bg-primary rounded-xl"
         @click="dialog.changeType('update')"
       >
         <div class="flex">
-          <div class="self-center px-4">
+          <div class="self-center px-4 shrink-0">
             <NuxtImg
               :src="urlFor(cart.categoryRef.categoryImg).url()"
               class="size-16"
             />
           </div>
-          <div class="border-l-telegram-bg-secondary grow border-l py-3 pl-4">
+          <div
+            class="border-l-telegram-bg-secondary grow border-l py-3 pl-4 min-w-0"
+          >
             <p class="font-semibold">{{ cart.categoryRef.singleName }}</p>
-            <div class="py-2">
-              <p class="text-2xl font-semibold">
-                <span>€</span>{{ cart.price }}
-                <span class="text-telegram-hint"
-                  >≈ {{ currencyChoice?.amountToEuro }}</span
+            <div class="py-2 text-nowrap whitespace-nowrap">
+              <p class="text-2xl font-semibold overflow-x-scroll">
+                <span class="pr-px">€</span>{{ cart.price }}
+                <span class="text-telegram-hint" v-if="currencyChoice"
+                  >≈ {{ currencyChoice?.amountToEuro * cart.price
+                  }}{{ currencyChoice?.currencySymbol }}</span
                 >
               </p>
               <p class="text-telegram-hint pt-0.5 text-sm font-medium">
                 +340 ₽ доставка на склад
               </p>
               <p class="pt-2 font-medium">
-                {{ cart.categoryRef.categoryDefWeight || cart.weight }}
+                {{ cart.categoryRef.categoryDefWeight || cart.weight }} кг
               </p>
             </div>
             <div
@@ -43,7 +46,7 @@ const { storeCarts, currencyChoice } = storeToRefs(carts)
               }}</NuxtLink>
             </div>
           </div>
-          <div class="flex shrink flex-col justify-between py-2.5 pr-2">
+          <div class="flex shrink-0 flex-col justify-between py-2.5 pr-2">
             <button
               class="bg-telegram-bg-secondary text-telegram-hint inline-flex size-8 items-center justify-center rounded-lg font-medium"
             >

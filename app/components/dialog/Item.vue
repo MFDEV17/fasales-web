@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { randomUUID } from 'crypto'
 import { storeItemSchema, type StoreItem } from '~/types/StoreItem'
 
 const dialog = useDialogStore()
@@ -14,7 +13,7 @@ const cartStore = useCartStore()
 const onSubmit = handleSubmit((val) => {
   const item: StoreItem = {
     ...val,
-    itemId: randomUUID(),
+    itemId: 'id',
     categoryRef: categoryRef.value,
   }
 
