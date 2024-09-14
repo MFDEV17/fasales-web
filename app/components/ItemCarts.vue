@@ -1,7 +1,14 @@
 <script setup lang="ts">
+import type { StoreItem } from '~/types/StoreItem'
+
 const dialog = useDialogStore()
 const carts = useCartStore()
 const { storeCarts, currencyChoice } = storeToRefs(carts)
+
+const setUpdateProps = (cart: StoreItem) => {
+  dialog.changeType('update')
+  dialog.setCartRef(cart)
+}
 </script>
 
 <template>
@@ -9,7 +16,7 @@ const { storeCarts, currencyChoice } = storeToRefs(carts)
     <DialogTrigger as-child v-for="cart in storeCarts" class="cursor-pointer">
       <div
         class="bg-telegram-bg-primary rounded-xl"
-        @click="dialog.changeType('update')"
+        @click="setUpdateProps(cart)"
       >
         <div class="flex">
           <div class="self-center px-4 shrink-0">
@@ -21,7 +28,9 @@ const { storeCarts, currencyChoice } = storeToRefs(carts)
           <div
             class="border-l-telegram-bg-secondary grow border-l py-3 px-4 min-w-0"
           >
-            <p class="font-semibold">{{ cart.categoryRef.singleName }}</p>
+            <p class="font-semibold">
+              {{ cart.categoryRef.singleName || cart.categoryRef.categoryName }}
+            </p>
             <div class="py-2 text-nowrap whitespace-nowrap">
               <p
                 class="text-2xl font-semibold overflow-auto"

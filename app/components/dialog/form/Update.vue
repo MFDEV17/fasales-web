@@ -1,22 +1,25 @@
 <script setup lang="ts">
-import { storeItemSchema, type StoreItem } from '~/types/StoreItem'
+import { storeItemSchema } from '~/types/StoreItem'
 
 const dialog = useDialogStore()
-const { categoryRef } = storeToRefs(dialog)
+const { cartRef } = storeToRefs(dialog)
+
 const cartStore = useCartStore()
 
 const { handleSubmit } = useForm({
   validationSchema: toTypedSchema(storeItemSchema),
+  initialValues: {
+    weight: cartRef.value?.categoryRef.categoryDefWeight,
+    price: cartRef.value?.price,
+    size: cartRef.value?.size,
+    productLink: cartRef.value?.productLink,
+  },
 })
 
 const onSubmit = handleSubmit((val) => {
-  const item: StoreItem = {
-    ...val,
-    itemId: useId(),
-    categoryRef: categoryRef.value,
+  if (cartRef.value) {
+    cartStore.editItem(cartRef.value.itemId, val)
   }
-
-  cartStore.addItem(item)
 })
 </script>
 
@@ -24,62 +27,29 @@ const onSubmit = handleSubmit((val) => {
   <div class="bg-telegram-bg-primary text-telegram-text min-h-full px-5 py-6">
     <div class="flex flex-col items-center justify-center">
       <NuxtImg
-        :src="$urlFor(categoryRef.categoryImg).url()"
+        v-if="cartRef?.categoryRef.categoryImg"
+        :src="urlFor(cartRef?.categoryRef.categoryImg).url()"
         class="size-[92px]"
       />
       <div class="mt-5 flex items-center gap-x-2 text-2xl font-semibold">
-        <h3>{{ categoryRef.singleName || categoryRef.categoryName }}</h3>
+        <h3>
+          {{
+            cartRef?.categoryRef.singleName || cartRef?.categoryRef.categoryName
+          }}
+        </h3>
+
         <IconsPencil />
       </div>
       <ul class="text-telegram-hint mt-2 space-y-1 text-center text-sm">
-        <li>Расчётный вес — {{ categoryRef.categoryDefWeight }} кг</li>
+        <li v-if="cartRef?.categoryRef.categoryDefWeight">
+          Расчётный вес —
+          {{ cartRef.categoryRef.categoryDefWeight }}
+          кг
+        </li>
         <li>Комиссия за выкуп — 200 ₽</li>
       </ul>
 
-      <DialogRoot>
-        <DialogTrigger as-child>
-          <p class="text-telegram-link mt-5 cursor-pointer text-sm underline">
-            Список товаров запрещённых к пересылке
-          </p>
-        </DialogTrigger>
-        <DialogPortal>
-          <DialogContent
-            class="text-telegram-text data-[state=open]:animate-contentShow bg-telegram-bg-secondary fixed left-[50%] top-[50%] z-[100] h-full max-h-[80dvh] w-[90vw] max-w-screen-md translate-x-[-50%] translate-y-[-50%] overflow-y-scroll rounded-2xl outline-none"
-          >
-            <div
-              class="flex flex-col items-center justify-center space-y-6 pt-6"
-            >
-              <NuxtImg src="sad-face.png" />
-
-              <div class="flex flex-col space-y-6 px-6">
-                <p>
-                  К сожалению, из Европы в Россию можно отправлять не все
-                  товары.
-                </p>
-
-                <div class="space-y-4">
-                  <h3 class="text-2xl font-semibold">Запрещено к пересылке</h3>
-                  <ul class="list-inside list-disc">
-                    <li>Запчасти для машин</li>
-                    <li>Духи и жидкости</li>
-                    <li>Техника</li>
-                    <li>Мебель</li>
-                    <li>Лекарства</li>
-                  </ul>
-                </div>
-
-                <DialogClose as-child>
-                  <button
-                    class="bg-telegram-btn text-telegram-btn-text self-center rounded-lg px-2.5 py-2 uppercase outline-none"
-                  >
-                    понятно
-                  </button>
-                </DialogClose>
-              </div>
-            </div>
-          </DialogContent>
-        </DialogPortal>
-      </DialogRoot>
+      <DialogBannedItems />
 
       <ul
         class="text-failure mt-6 list-outside list-disc space-y-1 self-start pl-7 text-sm"
@@ -123,7 +93,10 @@ const onSubmit = handleSubmit((val) => {
                 inputmode="numeric"
               />
             </div>
-            <div class="space-y-1" v-if="!categoryRef.categoryDefWeight">
+            <div
+              class="space-y-1"
+              v-if="!cartRef?.categoryRef.categoryDefWeight"
+            >
               <label
                 for="weight"
                 class="text-telegram-hint flex gap-x-1 text-sm"
@@ -168,7 +141,7 @@ const onSubmit = handleSubmit((val) => {
             class="flex items-center gap-x-2 self-center rounded-lg bg-[#00FF00] px-2.5 py-2 font-medium uppercase text-[#fff]"
           >
             <IconsCheck />
-            <span>Сохранить</span>
+            <span>Изменить</span>
           </button>
         </form>
       </div>

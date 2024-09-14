@@ -9,7 +9,7 @@ await get()
 </script>
 
 <template>
-  <DialogLayout>
+  <DialogWrapper>
     <StatusBar />
     <div class="bg-telegram-bg-secondary relative min-h-dvh w-full">
       <section class="bg-telegram-bg-primary px-5 py-6">
@@ -115,7 +115,7 @@ await get()
 
       <ItemCarts />
 
-      <DialogCreateTrigger />
+      <DialogCreateDialogTrigger />
     </div>
-  </DialogLayout>
+  </DialogWrapper>
 </template>

@@ -1,31 +1,48 @@
 import type { Category } from '~/types/Category'
+import type { StoreItem } from '~/types/StoreItem'
 
-export const useDialogStore = defineStore('dialog', {
-  state: () => {
-    return {
-      dialogType: 'create' as 'create' | 'update',
-      dialogStep: 1,
-      categoryRef: null as unknown as Category,
-    }
-  },
-  actions: {
-    changeType(type: 'create' | 'update') {
-      this.dialogType = type
-    },
-    goNextStep() {
-      this.dialogStep += 1
-    },
-    goPrevStep() {
-      this.dialogStep -= 1
-    },
-    resetDialog() {
-      this.dialogStep = 1
-    },
-    setCategoryRef(category: Category) {
-      this.categoryRef = category
-    },
-    resetCategoryRef() {
-      this.categoryRef = null as unknown as Category
-    },
-  },
+export const useDialogStore = defineStore('dialog', () => {
+  const dialogType = ref<'create' | 'update'>('create')
+  const dialogStep = ref<number>(1)
+  const categoryRef = ref<Category>()
+  const cartRef = ref<StoreItem>()
+
+  const changeType = (type: 'create' | 'update') => {
+    dialogType.value = type
+  }
+  const goNextStep = () => {
+    dialogStep.value += 1
+  }
+  const goPrevStep = () => {
+    dialogStep.value -= 1
+  }
+  const resetDialog = () => {
+    dialogStep.value = 1
+  }
+  const setCategoryRef = (category: Category) => {
+    categoryRef.value = category
+  }
+  const setCartRef = (cart: StoreItem) => {
+    cartRef.value = cart
+  }
+  const resetCategoryRef = () => {
+    categoryRef.value
+  }
+  const resetCartRef = () => {}
+
+  return {
+    dialogType,
+    dialogStep,
+    cartRef,
+    categoryRef,
+
+    goNextStep,
+    goPrevStep,
+    resetDialog,
+    setCategoryRef,
+    resetCategoryRef,
+    resetCartRef,
+    setCartRef,
+    changeType,
+  }
 })

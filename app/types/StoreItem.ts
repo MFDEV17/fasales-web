@@ -2,10 +2,13 @@ import { number, object, string, type InferType } from 'yup'
 import type { Category } from './Category'
 
 export const storeItemSchema = object({
-  price: number().required().max(100, 'Некорректная цена').positive(),
+  price: number()
+    .required('Некорректная цена')
+    .max(50000, 'Некорректная цена')
+    .positive(),
   weight: number()
-    .optional()
-    .positive()
+    .required('Вес должен быть в пределах 0.1-100 кг')
+    .positive('Вес должен быть в пределах 0.1-100 кг')
     .min(0.1, 'Вес должен быть в пределах 0.1-100 кг')
     .max(100, 'Вес должен быть в пределах 0.1-100 кг'),
   size: string().optional(),

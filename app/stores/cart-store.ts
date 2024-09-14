@@ -16,6 +16,16 @@ export const useCartStore = defineStore('carts', () => {
     storeCarts.value.push(storeItem)
   }
 
+  const editItem = (itemId: string, fieldsToUpdate: Partial<StoreItem>) => {
+    const itemIndex = storeCarts.value.findIndex((c) => c.itemId === itemId)
+    if (itemIndex >= 0) {
+      storeCarts.value[itemIndex] = {
+        ...storeCarts.value[itemIndex],
+        ...fieldsToUpdate,
+      }
+    }
+  }
+
   const removeItem = (itemId: string): void => {
     const itemIndex = storeCarts.value.findIndex((i) => i.itemId == itemId)
     if (itemIndex >= 0) storeCarts.value.splice(itemIndex, 1)
@@ -91,6 +101,7 @@ export const useCartStore = defineStore('carts', () => {
     incrementCount,
     decrementCount,
     calculateResult,
+    editItem,
 
     currencyChoice,
     countryChoice,
