@@ -19,15 +19,15 @@ const { storeCarts, currencyChoice } = storeToRefs(carts)
             />
           </div>
           <div
-            class="border-l-telegram-bg-secondary grow border-l py-3 pl-4 min-w-0"
+            class="border-l-telegram-bg-secondary grow border-l py-3 px-4 min-w-0"
           >
             <p class="font-semibold">{{ cart.categoryRef.singleName }}</p>
             <div class="py-2 text-nowrap whitespace-nowrap">
               <p
-                class="text-2xl font-semibold overflow-x-scroll"
+                class="text-2xl font-semibold overflow-auto"
                 @click="(e) => e.stopPropagation()"
               >
-                <span class="pr-px">€</span>{{ cart.price }}
+                <span class="pr-0.5">€</span>{{ cart.price }}
                 <span class="text-telegram-hint" v-if="currencyChoice"
                   >≈ {{ currencyChoice?.amountToEuro * cart.price
                   }}{{ currencyChoice?.currencySymbol }}</span

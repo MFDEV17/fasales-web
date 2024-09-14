@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   },
   tailwindcss: {
     config: {
+      plugins: [require('tailwind-scrollbar-hide')],
       theme: {
         keyframes: {
           overlayShow: {
