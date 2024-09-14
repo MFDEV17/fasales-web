@@ -23,7 +23,10 @@ const { storeCarts, currencyChoice } = storeToRefs(carts)
           >
             <p class="font-semibold">{{ cart.categoryRef.singleName }}</p>
             <div class="py-2 text-nowrap whitespace-nowrap">
-              <p class="text-2xl font-semibold overflow-x-scroll">
+              <p
+                class="text-2xl font-semibold overflow-x-scroll"
+                @click="(e) => e.stopPropagation()"
+              >
                 <span class="pr-px">€</span>{{ cart.price }}
                 <span class="text-telegram-hint" v-if="currencyChoice"
                   >≈ {{ currencyChoice?.amountToEuro * cart.price
@@ -38,6 +41,7 @@ const { storeCarts, currencyChoice } = storeToRefs(carts)
               </p>
             </div>
             <div
+              @click="(e) => e.stopPropagation()"
               class="text-telegram-link flex items-center gap-x-1 text-sm italic"
             >
               <IconsLink />
@@ -48,11 +52,13 @@ const { storeCarts, currencyChoice } = storeToRefs(carts)
           </div>
           <div class="flex shrink-0 flex-col justify-between py-2.5 pr-2">
             <button
+              @click="(e) => e.stopPropagation()"
               class="bg-telegram-bg-secondary text-telegram-hint inline-flex size-8 items-center justify-center rounded-lg font-medium"
             >
               {{ cart.count }}
             </button>
             <button
+              @click="(e) => e.stopPropagation()"
               class="inline-flex size-8 items-center justify-center rounded-lg bg-[#F25A5A]"
             >
               <IconsTrash />
