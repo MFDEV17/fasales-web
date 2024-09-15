@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import type { BannedItem } from '~/types/BannedItem'
+
+const query = groq`*[_type == 'bannedCategories']{_id, bannedCategory}`
+const { data: bannedItems } = await useSanityQuery<BannedItem[]>(query)
+</script>
+
 <template>
   <DialogRoot>
     <DialogTrigger as-child>
@@ -20,11 +27,9 @@
             <div class="space-y-4">
               <h3 class="text-2xl font-semibold">Запрещено к пересылке</h3>
               <ul class="list-inside list-disc">
-                <li>Запчасти для машин</li>
-                <li>Духи и жидкости</li>
-                <li>Техника</li>
-                <li>Мебель</li>
-                <li>Лекарства</li>
+                <li v-for="item in bannedItems" :key="item._id">
+                  {{ item.bannedCategory }}
+                </li>
               </ul>
             </div>
 
