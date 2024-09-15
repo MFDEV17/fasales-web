@@ -28,6 +28,14 @@ export default defineNuxtConfig({
       plugins: [require('tailwind-scrollbar-hide')],
       theme: {
         keyframes: {
+          'collapsible-down': {
+            from: { height: '0' },
+            to: { height: 'var(--radix-collapsible-content-height)' },
+          },
+          'collapsible-up': {
+            from: { height: 'var(--radix-collapsible-content-height)' },
+            to: { height: '0' },
+          },
           overlayShow: {
             from: { opacity: '0' },
             to: { opacity: '1' },
@@ -48,6 +56,8 @@ export default defineNuxtConfig({
           overlayShow: 'overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
           overlayHide: 'overlayHide 150ms cubic-bezier(0.16, 1, 0.3, 1)',
           contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
+          'collapsible-down': 'collapsible-down 0.3s ease-in-out',
+          'collapsible-up': 'collapsible-up 0.3s ease-in-out',
         },
         screens: {
           md: '393px',
