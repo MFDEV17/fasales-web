@@ -1,6 +1,6 @@
 import type { DefaultResponse } from '~/types/DefaultResponse'
 
-export default function useCountryData() {
+export default function useInitData() {
   const store = useCartStore()
 
   const get = async () => {

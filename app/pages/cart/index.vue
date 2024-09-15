@@ -4,7 +4,7 @@ const cartStore = useCartStore()
 const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
   storeToRefs(cartStore)
 
-const { get } = useCountryData()
+const { get } = useInitData()
 await get()
 </script>
 

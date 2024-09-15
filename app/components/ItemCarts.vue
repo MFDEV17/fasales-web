@@ -54,9 +54,9 @@ const setUpdateProps = (cart: StoreItem) => {
               class="text-telegram-link flex items-center gap-x-1 text-sm italic"
             >
               <IconsLink />
-              <NuxtLink :to="cart.productLink" target="_blank">{{
-                cart.productLink
-              }}</NuxtLink>
+              <NuxtLink :to="cart.productLink" target="_blank"
+                >{{ $urlShorter(cart.productLink) }} ...</NuxtLink
+              >
             </div>
           </div>
           <div class="flex shrink-0 flex-col justify-between py-2.5 pr-2">
