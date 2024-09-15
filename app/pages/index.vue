@@ -14,5 +14,6 @@
         <p>Добавь нужные товары и укажи их стоимость, а остальное за нами.</p>
       </div>
     </div>
+    <NuxtLink to="/cart">next</NuxtLink>
   </div>
 </template>

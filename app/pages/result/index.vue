@@ -32,5 +32,9 @@
         </div>
       </GradientContent>
     </div>
+    <div class="flex items-center gap-x-3">
+      <NuxtLink to="/cart">back</NuxtLink>
+      <NuxtLink to="/order">next</NuxtLink>
+    </div>
   </div>
 </template>

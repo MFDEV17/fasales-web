@@ -117,5 +117,9 @@ await get()
 
       <DialogCreateDialogTrigger />
     </div>
+    <div class="gap-x-5 flex items-center">
+      <NuxtLink to="/">back</NuxtLink>
+      <NuxtLink to="/result">next</NuxtLink>
+    </div>
   </DialogWrapper>
 </template>
