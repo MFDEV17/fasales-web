@@ -28,7 +28,11 @@ const onSubmit = handleSubmit((val) => {
 <template>
   <div class="bg-telegram-bg-primary text-telegram-text min-h-full px-5 py-6">
     <div class="flex flex-col items-center justify-center">
-      <NuxtImg src="hello" class="size-[92px]" />
+      <NuxtImg
+        :src="urlFor(categoryRef.categoryImg).url()"
+        class="size-[92px]"
+        v-if="categoryRef?.categoryImg"
+      />
       <div class="mt-5 flex items-center gap-x-2 text-2xl font-semibold">
         <h3>
           {{ categoryRef?.singleName || categoryRef?.categoryName }}
