@@ -28,7 +28,9 @@ export const useCartStore = defineStore('carts', () => {
 
   const removeItem = (itemId: string): void => {
     const itemIndex = storeCarts.value.findIndex((i) => i.itemId == itemId)
-    if (itemIndex >= 0) storeCarts.value.splice(itemIndex, 1)
+    if (itemIndex >= 0) {
+      storeCarts.value.splice(itemIndex, 1)
+    }
   }
 
   const incrementCount = (itemId: string): void => {
@@ -65,9 +67,9 @@ export const useCartStore = defineStore('carts', () => {
     methodChoice.value = method
   }
 
-  const calculateResult = () => {
+  const calculateResult = computed(() => {
     let itemsPriceSumEuro = 0
-    let itemsPriceSumUserCurrency
+    let itemsPriceSumUserCurrency = 0
     let itemWeightSum = 0
 
     for (const prod of storeCarts.value) {
@@ -83,11 +85,16 @@ export const useCartStore = defineStore('carts', () => {
         itemsPriceSumEuro * currencyChoice.value.amountToEuro
     }
 
+    const deliveryTime = methodChoice.value?.deliveryTime
+
     return {
+      itemsPriceSumUserCurrency,
       itemsPriceSumEuro,
       itemWeightSum,
+      deliveryTime,
+      currencyChoice,
     }
-  }
+  })
 
   return {
     setCountryChoice,
@@ -100,9 +107,9 @@ export const useCartStore = defineStore('carts', () => {
     addItem,
     incrementCount,
     decrementCount,
-    calculateResult,
     editItem,
 
+    calculateResult,
     currencyChoice,
     countryChoice,
     methodChoice,
