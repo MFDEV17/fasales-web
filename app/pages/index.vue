@@ -1,3 +1,8 @@
+<script setup lang="ts">
+const { get } = useInitData()
+await get()
+</script>
+
 <template>
   <div
     class="text-telegram-text grid min-h-dvh place-content-center place-items-center space-y-9 px-6"

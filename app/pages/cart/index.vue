@@ -3,9 +3,6 @@ const cartStore = useCartStore()
 
 const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
   storeToRefs(cartStore)
-
-const { get } = useInitData()
-await get()
 </script>
 
 <template>
