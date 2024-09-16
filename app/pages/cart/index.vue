@@ -92,22 +92,28 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
           <div class="space-y-4">
             <p class="font-medium">Способ доставки</p>
 
-            <div class="space-y-3">
+            <RadioGroupRoot
+              @update:model-value="cartStore.setMethodChoice"
+              class="space-y-3"
+              :default-value="methodChoice?._key"
+              :v-model="methodChoice?._key"
+            >
               <div
                 class="flex items-center gap-x-2"
                 v-for="m in countryChoice?.deliveryMethods"
               >
-                <CheckboxRoot
-                  :checked="methodChoice?._key === m._key"
-                  class="border-telegram-btn flex size-4 items-center justify-center rounded-full border-2"
+                <RadioGroupItem
+                  :id="m._key"
+                  :value="m._key"
+                  class="size-4 border-2 flex items-center justify-center border-telegram-btn rounded-full"
                 >
-                  <CheckboxIndicator
-                    class="bg-telegram-btn size-2 rounded-full"
+                  <RadioGroupIndicator
+                    class="size-2 bg-telegram-btn rounded-full"
                   />
-                </CheckboxRoot>
-                <span>{{ m.methodName }}</span>
+                </RadioGroupItem>
+                <label :for="m._key">{{ m.methodName }}</label>
               </div>
-            </div>
+            </RadioGroupRoot>
           </div>
         </div>
       </section>

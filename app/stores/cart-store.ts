@@ -63,25 +63,75 @@ export const useCartStore = defineStore('carts', () => {
     }
   }
 
-  const setCountryChoice = (countryId: string): void => {
+  const setCountryChoice = (countryId: string) => {
     const country = countries.value.find((c) => c._id == countryId)
 
+    // ⡏⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠙⠉⠉⠉⠹
+    // ⡇⢸⣿⡟⠛⢿⣷⠀⢸⣿⡟⠛⢿⣷⡄⢸⣿⡇⠀⢸⣿⡇⢸⣿⡇⠀⢸⣿⡇⠀
+    // ⡇⢸⣿⣧⣤⣾⠿⠀⢸⣿⣇⣀⣸⡿⠃⢸⣿⡇⠀⢸⣿⡇⢸⣿⣇⣀⣸⣿⡇⠀
+    // ⡇⢸⣿⡏⠉⢹⣿⡆⢸⣿⡟⠛⢻⣷⡄⢸⣿⡇⠀⢸⣿⡇⢸⣿⡏⠉⢹⣿⡇⠀
+    // ⡇⢸⣿⣧⣤⣼⡿⠃⢸⣿⡇⠀⢸⣿⡇⠸⣿⣧⣤⣼⡿⠁⢸⣿⡇⠀⢸⣿⡇⠀
+    // ⣇⣀⣀⣀⣀⣀⣀⣄⣀⣀⣀⣀⣀⣀⣀⣠⣀⡈⠉⣁⣀⣄⣀⣀⣀⣠⣀⣀⣀⣰
+    // ⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷
+    // ⡆⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑⢝⣇
+    // ⡆⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐⢕⢽
+    // ⡗⢰⣶⣶⣦⣝⢝⢕⢕⠅⡆⢕⢕⢕⢕⢕⣴⠏⣠⡶⠛⡉⡉⡛⢶⣦⡀⠐⣕⢕
+    // ⡝⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀⢱⢕
+    // ⡝⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇⡀⢕
+    // ⡝⠁⣠⣾⠟⡉⡉⡉⠻⣦⣻⣿⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣦⣥⣿⡇⡿⣰⢗⢄
+    // ⠁⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕⢕⢕
+    // ⡀⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵⣵⣿
+    // ⡻⣄⣻⣿⣌⠘⢿⣷⣥⣿⠇⣿⣿⣿⣿⣿⣿⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+    // ⣷⢄⠻⣿⣟⠿⠦⠍⠉⣡⣾⣿⣿⣿⣿⣿⣿⢸⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⠟
+    // ⡕⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿⠁⣠
+    // ⡝⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀⣈⠙
+    // ⡝⡵⡕⡀⠑⠳⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⢉⡠⡲⡫⡪⡪⡣
+    // I HATE TYPESCRIPT I HATE TYPESCRIPT I HATE TYPESCRIPT
+
     if (country) {
-      countryChoice.value = country
+      const sameMethodIndex = country.deliveryMethods?.findIndex(
+        (m) => m.methodName == methodChoice.value?.methodName,
+      )
+
+      if (
+        sameMethodIndex != undefined &&
+        country.deliveryMethods &&
+        country.deliveryMethods[sameMethodIndex]
+      ) {
+        countryChoice.value = country
+        methodChoice.value = country.deliveryMethods[sameMethodIndex]
+      } else {
+        countryChoice.value = country
+
+        if (
+          country.deliveryMethods &&
+          country.deliveryMethods[0] !== undefined
+        ) {
+          methodChoice.value = country.deliveryMethods[0]
+        }
+      }
     }
   }
 
-  const setMethodChoice = (method: DeliveryMethod): void => {
-    methodChoice.value = method
+  const setMethodChoice = (methodKey: string) => {
+    if (countryChoice.value?.deliveryMethods) {
+      const method = countryChoice.value?.deliveryMethods.find(
+        (m) => m._key == methodKey,
+      )
+      if (method) {
+        methodChoice.value = method
+      }
+    }
   }
 
   const calculateResult = computed(() => {
     let itemsPriceSumEuro = 0
     let itemsPriceSumUserCurrency = 0
     let itemWeightSum = 0
+    let deliveryPrice = 0
 
     for (const prod of storeCarts.value) {
-      itemsPriceSumEuro += prod.price
+      itemsPriceSumEuro += prod.price * prod.count
 
       if (prod.weight) {
         itemWeightSum += prod.weight
@@ -93,6 +143,16 @@ export const useCartStore = defineStore('carts', () => {
         itemsPriceSumEuro * currencyChoice.value.amountToEuro
     }
 
+    if (methodChoice.value?.priceRange) {
+      for (const range of methodChoice.value?.priceRange) {
+        for (const m of range.rangeList) {
+          if (itemWeightSum >= m.from && itemWeightSum <= m.to) {
+            deliveryPrice = m.deliveryPrice
+          }
+        }
+      }
+    }
+
     const deliveryTime = methodChoice.value?.deliveryTime
 
     return {
@@ -100,6 +160,7 @@ export const useCartStore = defineStore('carts', () => {
       itemsPriceSumEuro,
       itemWeightSum,
       deliveryTime,
+      deliveryPrice,
       currencyChoice,
     }
   })
