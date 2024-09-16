@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const dialog = useDialogStore()
-const { dialogType, dialogStep } = storeToRefs(dialog)
+const { dialogType, dialogStep, dialogOpen } = storeToRefs(dialog)
 </script>
 
 <template>
-  <DialogRoot @update:open="dialog.resetDialog()">
+  <DialogRoot @update:open="dialog.resetDialog()" v-model:open="dialogOpen">
     <DialogPortal>
       <DialogOverlay
         class="data-[state=open]:animate-overlayShow data-[state=closed]:animate-overlayHide fixed inset-0 z-30 bg-black/50"

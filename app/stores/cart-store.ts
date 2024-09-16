@@ -55,12 +55,20 @@ export const useCartStore = defineStore('carts', () => {
     countries.value = countriesList
   }
 
-  const setCurrencyChoice = (currency: Currency): void => {
-    currencyChoice.value = currency
+  const setCurrencyChoice = (currencyId: string): void => {
+    const currency = currencies.value.find((c) => c._id == currencyId)
+
+    if (currency) {
+      currencyChoice.value = currency
+    }
   }
 
-  const setCountryChoice = (country: DeliveryCountry): void => {
-    countryChoice.value = country
+  const setCountryChoice = (countryId: string): void => {
+    const country = countries.value.find((c) => c._id == countryId)
+
+    if (country) {
+      countryChoice.value = country
+    }
   }
 
   const setMethodChoice = (method: DeliveryMethod): void => {

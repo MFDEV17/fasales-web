@@ -19,9 +19,9 @@ export default function useInitData() {
       store.setMethods(firstCountry.deliveryMethods)
       store.setCurrencies(data.value.currencies)
 
-      store.setCountryChoice(firstCountry)
+      store.setCountryChoice(firstCountry._id)
       store.setMethodChoice(firstCountry.deliveryMethods[0])
-      store.setCurrencyChoice(data.value.currencies[0])
+      store.setCurrencyChoice(data.value.currencies[0]._id)
     }
   }
 

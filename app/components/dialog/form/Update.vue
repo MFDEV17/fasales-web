@@ -19,6 +19,7 @@ const { handleSubmit } = useForm({
 const onSubmit = handleSubmit((val) => {
   if (cartRef.value) {
     cartStore.editItem(cartRef.value.itemId, val)
+    dialog.toggleOpenDialog()
   }
 })
 </script>

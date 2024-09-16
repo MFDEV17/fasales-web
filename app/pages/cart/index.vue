@@ -14,11 +14,17 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
           <div class="space-y-3">
             <div class="flex items-center justify-between font-medium">
               <p>Валюта оплаты</p>
-              <SelectRoot>
+
+              <SelectRoot
+                :model-value="currencyChoice?.currencyCode"
+                @update:model-value="(val) => cartStore.setCurrencyChoice(val)"
+              >
                 <SelectTrigger
                   class="text-telegram-text bg-telegram-bg-secondary group inline-flex w-[156px] items-center justify-between rounded-lg p-3 outline-none"
                 >
-                  <SelectValue :placeholder="currencyChoice?.currencyCode" />
+                  <SelectValue :aria-label="currencyChoice?.currencyCode">{{
+                    currencyChoice?.currencyCode
+                  }}</SelectValue>
                   <IconsArrow
                     class="stroke-telegram-hint transition-transform duration-300 group-data-[state=open]:rotate-180"
                   />
@@ -31,6 +37,7 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
                   >
                     <SelectViewport class="space-y-4 *:outline-none">
                       <SelectItem
+                        class="cursor-pointer"
                         :value="c._id"
                         v-for="c in currencies.filter(
                           (i) => i._id !== currencyChoice?._id,
@@ -46,11 +53,16 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
 
             <div class="flex items-center justify-between font-medium">
               <p>Страна доставки</p>
-              <SelectRoot>
+              <SelectRoot
+                :model-value="countryChoice?.deliveryCountry"
+                @update:model-value="(val) => cartStore.setCountryChoice(val)"
+              >
                 <SelectTrigger
                   class="text-telegram-text bg-telegram-bg-secondary group inline-flex w-[156px] items-center justify-between rounded-lg p-3 outline-none"
                 >
-                  <SelectValue :placeholder="countryChoice?.deliveryCountry" />
+                  <SelectValue :aria-label="countryChoice?.deliveryCountry">
+                    {{ countryChoice?.deliveryCountry }}
+                  </SelectValue>
                   <IconsArrow
                     class="stroke-telegram-hint transition-transform duration-300 group-data-[state=open]:rotate-180"
                   />
@@ -63,6 +75,7 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
                   >
                     <SelectViewport class="space-y-4 *:outline-none">
                       <SelectItem
+                        class="cursor-pointer"
                         :value="c._id"
                         v-for="c in countries?.filter(
                           (i) => i._id !== countryChoice?._id,
@@ -93,17 +106,6 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
                   />
                 </CheckboxRoot>
                 <span>{{ m.methodName }}</span>
-              </div>
-
-              <div class="flex items-center gap-x-2">
-                <CheckboxRoot
-                  class="border-telegram-btn flex size-4 items-center justify-center rounded-full border-2"
-                >
-                  <CheckboxIndicator
-                    class="bg-telegram-btn size-2 rounded-full"
-                  />
-                </CheckboxRoot>
-                <span>Курьером на дом</span>
               </div>
             </div>
           </div>

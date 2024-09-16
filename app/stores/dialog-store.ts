@@ -4,6 +4,8 @@ import type { StoreItem } from '~/types/StoreItem'
 export const useDialogStore = defineStore('dialog', () => {
   const dialogType = ref<'create' | 'update'>('create')
   const dialogStep = ref<number>(1)
+  const dialogOpen = ref(false)
+
   const categoryRef = ref<Category>()
   const cartRef = ref<StoreItem>()
 
@@ -30,7 +32,12 @@ export const useDialogStore = defineStore('dialog', () => {
   }
   const resetCartRef = () => {}
 
+  const toggleOpenDialog = () => {
+    dialogOpen.value = !dialogOpen.value
+  }
+
   return {
+    dialogOpen,
     dialogType,
     dialogStep,
     cartRef,
@@ -44,5 +51,6 @@ export const useDialogStore = defineStore('dialog', () => {
     resetCartRef,
     setCartRef,
     changeType,
+    toggleOpenDialog,
   }
 })

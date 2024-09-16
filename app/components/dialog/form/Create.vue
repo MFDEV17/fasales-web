@@ -21,6 +21,7 @@ const onSubmit = handleSubmit((val) => {
       itemId: 'hello',
     }
     cartStore.addItem(storeCart)
+    dialog.toggleOpenDialog()
   }
 })
 </script>
