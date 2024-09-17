@@ -156,7 +156,7 @@ export const useCartStore = defineStore('carts', () => {
     const deliveryTime = methodChoice.value?.deliveryTime
 
     const deliveryPriceCurrencyChoice =
-      deliveryPrice * currencyChoice.value?.amountToEuro
+      deliveryPrice * (currencyChoice.value?.amountToEuro || 1)
 
     const finalSumPrice =
       deliveryPriceCurrencyChoice + itemsPriceSumUserCurrency

@@ -2,7 +2,7 @@
 const open = ref(false)
 
 const store = useCartStore()
-const { calculateResult } = storeToRefs(store)
+const { calculateResult, storeCarts } = storeToRefs(store)
 const {
   itemsPriceSumUserCurrency,
   itemsPriceSumEuro,
@@ -24,7 +24,8 @@ const {
         <li class="flex items-center justify-between">
           <p>Стоимость товаров</p>
           <p>
-            {{ itemsPriceSumUserCurrency }} {{ currencyChoice?.currencyCode }} /
+            {{ itemsPriceSumUserCurrency }} {{ currencyChoice?.currencySymbol }}
+            <span class="text-telegram-hint px-0.5">/</span>
             <span class="pr-0.5">€</span>{{ itemsPriceSumEuro }}
           </p>
         </li>
@@ -43,20 +44,36 @@ const {
       <CollapsibleContent
         class="group-data-[state=closed]:animate-collapsible-up group-data-[state=open]:animate-collapsible-down overflow-hidden transition-all"
       >
-        <ul class="space-y-2 pb-5 pt-5">
-          <li class="flex items-center justify-between">
-            <p>hello</p>
-            <p>hello</p>
+        <ol class="space-y-2 py-5 [counter-reset:chapter_0]">
+          <li
+            v-for="{
+              itemId,
+              weight,
+              price,
+              categoryRef: { singleName, categoryName },
+            } in storeCarts"
+            class="[counter-increment:chapter_1] before:[content:counter(chapter)'.'] flex items-center gap-x-2 text-telegram-hint"
+            :key="itemId"
+          >
+            <div
+              class="flex items-center justify-between w-full text-telegram-text"
+            >
+              <p>
+                {{ singleName || categoryName }}
+              </p>
+              <div class="flex items-center gap-x-1" v-if="currencyChoice">
+                <p>{{ weight }} кг</p>
+                <span class="text-telegram-hint">/</span>
+                <p>
+                  {{ price * currencyChoice?.amountToEuro
+                  }}<span class="pl-0.5">{{
+                    currencyChoice?.currencySymbol
+                  }}</span>
+                </p>
+              </div>
+            </div>
           </li>
-          <li class="flex items-center justify-between">
-            <p>hello</p>
-            <p>hello</p>
-          </li>
-          <li class="flex items-center justify-between">
-            <p>hello</p>
-            <p>hello</p>
-          </li>
-        </ul>
+        </ol>
       </CollapsibleContent>
     </div>
 
