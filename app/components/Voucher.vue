@@ -1,5 +1,15 @@
 <script setup lang="ts">
 const open = ref(false)
+
+const store = useCartStore()
+const { calculateResult } = storeToRefs(store)
+const {
+  itemsPriceSumUserCurrency,
+  itemsPriceSumEuro,
+  itemWeightSum,
+  currencyChoice,
+  deliveryPriceCurrencyChoice,
+} = calculateResult.value
 </script>
 
 <template>
@@ -12,16 +22,22 @@ const open = ref(false)
     >
       <ul class="space-y-2 pt-5 pb-5">
         <li class="flex items-center justify-between">
-          <p>hello</p>
-          <p>hello</p>
+          <p>Стоимость товаров</p>
+          <p>
+            {{ itemsPriceSumUserCurrency }} {{ currencyChoice?.currencyCode }} /
+            <span class="pr-0.5">€</span>{{ itemsPriceSumEuro }}
+          </p>
         </li>
         <li class="flex items-center justify-between">
-          <p>hello</p>
-          <p>hello</p>
+          <p>Стоимость доставки</p>
+          <p>
+            {{ deliveryPriceCurrencyChoice
+            }}<span class="pl-0.5">{{ currencyChoice?.currencySymbol }}</span>
+          </p>
         </li>
         <li class="flex items-center justify-between">
-          <p>hello</p>
-          <p>hello</p>
+          <p>Вес посылки</p>
+          <p>{{ itemWeightSum }} кг</p>
         </li>
       </ul>
       <CollapsibleContent

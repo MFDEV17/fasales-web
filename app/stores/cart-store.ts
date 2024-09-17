@@ -155,13 +155,21 @@ export const useCartStore = defineStore('carts', () => {
 
     const deliveryTime = methodChoice.value?.deliveryTime
 
+    const deliveryPriceCurrencyChoice =
+      deliveryPrice * currencyChoice.value?.amountToEuro
+
+    const finalSumPrice =
+      deliveryPriceCurrencyChoice + itemsPriceSumUserCurrency
+
     return {
+      finalSumPrice,
       itemsPriceSumUserCurrency,
       itemsPriceSumEuro,
       itemWeightSum,
       deliveryTime,
       deliveryPrice,
       currencyChoice,
+      deliveryPriceCurrencyChoice,
     }
   })
 
