@@ -18,7 +18,7 @@ const onSubmit = handleSubmit((val) => {
     const storeCart: StoreItem = {
       ...val,
       categoryRef: categoryRef.value,
-      itemId: 'hello',
+      itemId: cartStore.storeCarts.length.toString(),
     }
     cartStore.addItem(storeCart)
     dialog.toggleOpenDialog()

@@ -8,10 +8,13 @@ export default defineNuxtConfig({
     'radix-vue/nuxt',
     '@vee-validate/nuxt',
   ],
+
   veeValidate: {
     autoImports: true,
   },
+
   devtools: { enabled: true },
+
   sanity: {
     projectId: process.env.NUXT_SANITY_PROJECT_ID,
     dataset: process.env.NUXT_SANITY_DATASET,
@@ -23,6 +26,7 @@ export default defineNuxtConfig({
       stega: true,
     },
   },
+
   tailwindcss: {
     config: {
       plugins: [require('tailwind-scrollbar-hide')],
@@ -35,6 +39,14 @@ export default defineNuxtConfig({
           'collapsible-up': {
             from: { height: 'var(--radix-collapsible-content-height)' },
             to: { height: '0' },
+          },
+          counterShow: {
+            from: { opacity: '0', transform: 'scale(0.9)' },
+            to: { opacity: '1', transform: 'scale(1)' },
+          },
+          counterHide: {
+            from: { opacity: '1', transform: 'scale(1)' },
+            to: { opacity: '0', transform: 'scale(0.9)' },
           },
           overlayShow: {
             from: { opacity: '0' },
@@ -53,6 +65,8 @@ export default defineNuxtConfig({
           },
         },
         animation: {
+          counterShow: 'counterShow 200ms ease-in-out',
+          counterHide: 'counterHide 200ms ease-in-out',
           overlayShow: 'overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
           overlayHide: 'overlayHide 150ms cubic-bezier(0.16, 1, 0.3, 1)',
           contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
@@ -80,4 +94,6 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  compatibilityDate: '2024-09-20',
 })

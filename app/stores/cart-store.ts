@@ -40,7 +40,9 @@ export const useCartStore = defineStore('carts', () => {
 
   const decrementCount = (itemId: string): void => {
     const item = storeCarts.value.find((i) => i.itemId === itemId)
-    if (item) item.count -= 1
+    if (item && item.count > 1) {
+      item.count -= 1
+    }
   }
 
   const setCurrencies = (currencyList: Currency[]): void => {

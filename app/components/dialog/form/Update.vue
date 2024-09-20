@@ -13,6 +13,7 @@ const { handleSubmit } = useForm({
     price: cartRef.value?.price,
     size: cartRef.value?.size,
     productLink: cartRef.value?.productLink,
+    count: cartRef.value?.count,
   },
 })
 

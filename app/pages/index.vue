@@ -7,7 +7,12 @@ await get()
   <div
     class="text-telegram-text grid min-h-dvh place-content-center place-items-center space-y-9 px-6"
   >
-    <NuxtImg src="shaking-hand.png" class="block self-center" />
+    <NuxtImg
+      src="shaking-hand.png"
+      class="self-center"
+      width="256"
+      height="256"
+    />
     <div class="space-y-8">
       <h3 class="text-center text-4xl font-semibold">
         Привет, <span class="text-telegram-link">Влад</span>!

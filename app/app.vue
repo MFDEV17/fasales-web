@@ -1,3 +1,5 @@
 <template>
-  <NuxtPage />
+  <div class="select-none">
+    <NuxtPage />
+  </div>
 </template>

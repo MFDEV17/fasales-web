@@ -8,8 +8,8 @@ export function urlFor(source: Image) {
 }
 
 export function formatDay(deliveryTime: number) {
-  const lastDigit = (deliveryTime % 100) / 10
-  if (lastDigit == 1) return 'дней'
+  const prelastDigit = (deliveryTime % 100) / 10
+  if (prelastDigit == 1) return 'дней'
 
   switch (deliveryTime % 10) {
     case 1:
