@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     'radix-vue/nuxt',
     '@vee-validate/nuxt',
   ],
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+  },
 
   veeValidate: {
     autoImports: true,
@@ -97,3 +100,4 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2024-09-20',
 })
+
