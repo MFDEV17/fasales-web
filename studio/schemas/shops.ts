@@ -16,6 +16,11 @@ export const shop = defineType({
       name: 'shopLink',
     }),
     defineField({
+      title: 'Стоимость доставки',
+      type: 'number',
+      name: 'deliveryPrice',
+    }),
+    defineField({
       title: 'Пониженная комиссия',
       type: 'boolean',
       name: 'specialCommission',

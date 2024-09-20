@@ -1,5 +1,6 @@
 import type { Currency } from '~/types/DefaultResponse'
 import type { DeliveryCountry, DeliveryMethod } from '~/types/DeliveryCountry'
+import type { Shop } from '~/types/Shop'
 import type { StoreItem } from '~/types/StoreItem'
 
 export const useCartStore = defineStore('carts', () => {
@@ -7,6 +8,7 @@ export const useCartStore = defineStore('carts', () => {
   const countryChoice = ref<DeliveryCountry | null>(null)
   const methodChoice = ref<DeliveryMethod | null>(null)
   const storeCarts = ref<StoreItem[]>([])
+  const shops = ref<Shop[]>([])
 
   const countries = ref<DeliveryCountry[]>([])
   const methods = ref<DeliveryMethod[]>([])
@@ -14,6 +16,10 @@ export const useCartStore = defineStore('carts', () => {
 
   const addItem = (storeItem: StoreItem): void => {
     storeCarts.value.push(storeItem)
+  }
+
+  const initShopArray = (shopList: Shop[]) => {
+    shops.value = shopList
   }
 
   const editItem = (itemId: string, fieldsToUpdate: Partial<StoreItem>) => {
@@ -187,8 +193,10 @@ export const useCartStore = defineStore('carts', () => {
     incrementCount,
     decrementCount,
     editItem,
+    initShopArray,
 
     calculateResult,
+    shops,
     currencyChoice,
     countryChoice,
     methodChoice,

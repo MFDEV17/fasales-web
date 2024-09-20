@@ -1,6 +1,9 @@
+import type { Shop } from './Shop'
+
 export interface DefaultResponse {
   currencies: Currency[]
   countries: Country[]
+  shops: Shop[]
 }
 
 export interface Country {

@@ -9,7 +9,8 @@ export default function useInitData() {
       const query = groq`
       {
         'currencies': *[_type == 'currency'],
-        'countries': *[_type == 'countries']
+        'countries': *[_type == 'countries'],
+        'shops': *[_type == 'shops']
       }
     `
       const { data } = await useSanityQuery<DefaultResponse>(query)
@@ -24,6 +25,8 @@ export default function useInitData() {
         store.setCountryChoice(firstCountry._id)
         store.setMethodChoice(firstCountry.deliveryMethods[0]._key)
         store.setCurrencyChoice(data.value.currencies[0]._id)
+
+        store.initShopArray(data.value.shops)
       }
     }
   }
