@@ -21,6 +21,11 @@ export const shop = defineType({
       name: 'deliveryPrice',
     }),
     defineField({
+      title: 'Порог веса для бесплатной доставки',
+      type: 'number',
+      name: 'freeDeliveryWeight',
+    }),
+    defineField({
       title: 'Пониженная комиссия',
       type: 'boolean',
       name: 'specialCommission',
