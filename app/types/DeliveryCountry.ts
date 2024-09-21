@@ -1,24 +1,23 @@
 export interface DeliveryCountry {
   _id: string
   deliveryCountry: string
-  deliveryMethods?: DeliveryMethod[]
+  deliveryMethods: [DeliveryMethod, DeliveryMethod]
 }
 
 export interface DeliveryMethod {
   _key: string
   deliveryTime: number
   methodName: string
-  priceRange: PriceRange[]
+  hint?: string
+  priceRange: PriceRange
 }
 
-interface PriceRange {
-  _key: string
+export interface PriceRange {
   rangeList: RangeList[]
 }
 
-interface RangeList {
+export interface RangeList {
   _key: string
-  _type: string
   deliveryPrice: number
   from: number
   to: number

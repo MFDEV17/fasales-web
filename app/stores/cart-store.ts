@@ -1,4 +1,4 @@
-import type { Currency } from '~/types/DefaultResponse'
+import type { Currency } from '~/types/Currency'
 import type { DeliveryCountry, DeliveryMethod } from '~/types/DeliveryCountry'
 import type { Shop } from '~/types/Shop'
 import type { StoreItem } from '~/types/StoreItem'
@@ -84,8 +84,8 @@ export const useCartStore = defineStore('carts', () => {
     // ⡆⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑⢝⣇
     // ⡆⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐⢕⢽
     // ⡗⢰⣶⣶⣦⣝⢝⢕⢕⠅⡆⢕⢕⢕⢕⢕⣴⠏⣠⡶⠛⡉⡉⡛⢶⣦⡀⠐⣕⢕
-    // ⡝⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀⢱⢕
     // ⡝⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇⡀⢕
+    // ⡝⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀⢱⢕
     // ⡝⠁⣠⣾⠟⡉⡉⡉⠻⣦⣻⣿⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣦⣥⣿⡇⡿⣰⢗⢄
     // ⠁⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕⢕⢕
     // ⡀⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵⣵⣿
@@ -132,6 +132,35 @@ export const useCartStore = defineStore('carts', () => {
     }
   }
 
+  const getSumWeight = computed(() => {
+    const weightSum = storeCarts.value.reduce(
+      (curr, sum) => curr + sum.weight * sum.count,
+      0,
+    )
+
+    const methodIndex = methodChoice.value?.priceRange.rangeList.findIndex(
+      (i) => weightSum >= i.from && weightSum <= i.to,
+    )
+
+    if (methodIndex && methodIndex >= 0) {
+      const courierMethodPrice =
+        countryChoice.value?.deliveryMethods[0].priceRange.rangeList[
+          methodIndex
+        ]
+      const mailMethodPrice =
+        countryChoice.value?.deliveryMethods[1].priceRange.rangeList[
+          methodIndex
+        ]
+      if (mailMethodPrice && courierMethodPrice && currencyChoice.value) {
+        const diff =
+          (courierMethodPrice?.deliveryPrice - mailMethodPrice?.deliveryPrice) *
+          currencyChoice.value?.amountToEuro
+
+        return { diff }
+      }
+    }
+  })
+
   const calculateResult = computed(() => {
     let itemsPriceSumEuro = 0
     let itemsPriceSumUserCurrency = 0
@@ -140,10 +169,7 @@ export const useCartStore = defineStore('carts', () => {
 
     for (const prod of storeCarts.value) {
       itemsPriceSumEuro += prod.price * prod.count
-
-      if (prod.weight) {
-        itemWeightSum += prod.weight
-      }
+      itemWeightSum += prod.weight
     }
 
     if (currencyChoice.value) {
@@ -152,11 +178,9 @@ export const useCartStore = defineStore('carts', () => {
     }
 
     if (methodChoice.value?.priceRange) {
-      for (const range of methodChoice.value?.priceRange) {
-        for (const m of range.rangeList) {
-          if (itemWeightSum >= m.from && itemWeightSum <= m.to) {
-            deliveryPrice = m.deliveryPrice
-          }
+      for (const range of methodChoice.value?.priceRange.rangeList) {
+        if (itemWeightSum >= range.from && itemWeightSum <= range.to) {
+          deliveryPrice = range.deliveryPrice
         }
       }
     }
@@ -194,6 +218,7 @@ export const useCartStore = defineStore('carts', () => {
     decrementCount,
     editItem,
     initShopArray,
+    getSumWeight,
 
     calculateResult,
     shops,

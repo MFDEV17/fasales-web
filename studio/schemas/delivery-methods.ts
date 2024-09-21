@@ -4,7 +4,6 @@ export const deliveryMethod = defineType({
   title: 'Методы доставки',
   name: 'deliveryMethod',
   type: 'object',
-  hidden: true,
   fields: [
     defineField({
       title: 'Наименоваение метода',
@@ -17,32 +16,29 @@ export const deliveryMethod = defineType({
       name: 'deliveryTime',
     }),
     defineField({
+      title: 'Подсказка',
+      type: 'string',
+      name: 'hint',
+    }),
+    defineField({
       title: 'Диапазон веса и цена доставки',
       name: 'priceRange',
-      type: 'array',
-      of: [
+      type: 'object',
+      fields: [
         defineField({
-          type: 'document',
-          name: 'range',
-
-          fields: [
+          name: 'rangeList',
+          type: 'array',
+          of: [
             defineField({
-              name: 'rangeList',
-              title: 'Диапазоны',
-              type: 'array',
-              of: [
+              type: 'document',
+              name: 'range',
+              fields: [
+                defineField({type: 'number', name: 'from', title: 'От'}),
+                defineField({type: 'number', name: 'to', title: 'До'}),
                 defineField({
-                  type: 'document',
-                  name: 'range',
-                  fields: [
-                    defineField({type: 'number', name: 'from', title: 'От'}),
-                    defineField({type: 'number', name: 'to', title: 'До'}),
-                    defineField({
-                      type: 'number',
-                      name: 'deliveryPrice',
-                      title: 'Цена доставки в евро',
-                    }),
-                  ],
+                  type: 'number',
+                  name: 'deliveryPrice',
+                  title: 'Цена доставки в евро',
                 }),
               ],
             }),

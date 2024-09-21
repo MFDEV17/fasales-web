@@ -1,8 +1,14 @@
 <script lang="ts" setup>
 const cartStore = useCartStore()
 
-const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
-  storeToRefs(cartStore)
+const {
+  currencies,
+  countries,
+  countryChoice,
+  methodChoice,
+  currencyChoice,
+  getSumWeight,
+} = storeToRefs(cartStore)
 </script>
 
 <template>
@@ -16,14 +22,14 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
               <p>Валюта оплаты</p>
 
               <SelectRoot
-                :model-value="currencyChoice?.currencyCode"
+                :model-value="currencyChoice?.currencyName"
                 @update:model-value="(val) => cartStore.setCurrencyChoice(val)"
               >
                 <SelectTrigger
                   class="text-telegram-text bg-telegram-bg-secondary group inline-flex w-[156px] items-center justify-between rounded-lg p-3 outline-none"
                 >
                   <SelectValue :aria-label="currencyChoice?.currencyCode">{{
-                    currencyChoice?.currencyCode
+                    currencyChoice?.currencyName
                   }}</SelectValue>
                   <IconsArrow
                     class="stroke-telegram-hint transition-transform duration-300 group-data-[state=open]:rotate-180"
@@ -43,7 +49,7 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
                           (i) => i._id !== currencyChoice?._id,
                         )"
                       >
-                        <SelectItemText>{{ c.currencyCode }}</SelectItemText>
+                        <SelectItemText>{{ c.currencyName }}</SelectItemText>
                       </SelectItem>
                     </SelectViewport>
                   </SelectContent>
@@ -54,6 +60,7 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
             <div class="flex items-center justify-between font-medium">
               <p>Страна доставки</p>
               <SelectRoot
+                disabled
                 :model-value="countryChoice?.deliveryCountry"
                 @update:model-value="(val) => cartStore.setCountryChoice(val)"
               >
@@ -100,7 +107,7 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
             >
               <div
                 class="flex items-center gap-x-2"
-                v-for="m in countryChoice?.deliveryMethods"
+                v-for="(m, index) in countryChoice?.deliveryMethods"
               >
                 <RadioGroupItem
                   :id="m._key"
@@ -111,7 +118,16 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
                     class="size-2 bg-telegram-btn rounded-full data-[state=checked]:animate-checkboxShow"
                   />
                 </RadioGroupItem>
-                <label :for="m._key">{{ m.methodName }}</label>
+                <div class="space-y-0.5">
+                  <label :for="m._key">{{ m.methodName }}</label>
+                  <p
+                    class="text-sm text-telegram-hint"
+                    v-if="getSumWeight && getSumWeight.diff > 0 && index == 0"
+                  >
+                    +{{ getSumWeight.diff }}{{ currencyChoice?.currencySymbol }}
+                    <span v-if="m.hint">({{ m.hint }})</span>
+                  </p>
+                </div>
               </div>
             </RadioGroupRoot>
           </div>

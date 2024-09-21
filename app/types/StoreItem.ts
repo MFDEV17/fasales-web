@@ -15,11 +15,12 @@ export const storeItemSchema = object({
   productLink: string()
     .url('Некорректная ссылка')
     .required('Некорректная ссылка'),
-  count: number().max(10).default(1),
+  count: number().default(1),
   extraDeliveryPrice: number().optional(),
 })
 
 export type StoreItem = {
+  shopRef?: string
   categoryRef: Category
   itemId: string
 } & InferType<typeof storeItemSchema>
