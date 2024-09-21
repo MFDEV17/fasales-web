@@ -63,13 +63,23 @@ export default defineNuxtConfig({
             },
             to: { opacity: '1', transform: 'translate(-50%, -50%) scale(1)' },
           },
+          contentHide: {
+            from: {
+              opacity: '1',
+            },
+            to: {
+              opacity: '0',
+              transform: 'translate(-50%, -48%) scale(0.96)',
+            },
+          },
         },
         animation: {
           counterShow: 'counterShow 200ms ease-in-out',
           counterHide: 'counterHide 200ms ease-in-out',
           overlayShow: 'overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
           overlayHide: 'overlayHide 150ms cubic-bezier(0.16, 1, 0.3, 1)',
-          contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
+          contentShow: 'contentShow 250ms cubic-bezier(0.16, 1, 0.3, 1)',
+          contentHide: 'contentHide 250ms cubic-bezier(0.16, 1, 0.3, 1)',
           'collapsible-down': 'collapsible-down 0.3s ease-in-out',
           'collapsible-up': 'collapsible-up 0.3s ease-in-out',
         },
@@ -97,4 +107,3 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2024-09-20',
 })
-
