@@ -5,8 +5,13 @@ const dialog = useDialogStore()
 const { cartRef } = storeToRefs(dialog)
 
 const cartStore = useCartStore()
+const { shops } = storeToRefs(cartStore)
 
-const { handleSubmit } = useForm({
+const {
+  handleSubmit,
+  setFieldValue,
+  values: { weight },
+} = useForm({
   validationSchema: toTypedSchema(storeItemSchema),
   initialValues: {
     weight: cartRef.value?.categoryRef.categoryDefWeight,
@@ -14,8 +19,31 @@ const { handleSubmit } = useForm({
     size: cartRef.value?.size,
     productLink: cartRef.value?.productLink,
     count: cartRef.value?.count,
+    extraDeliveryPrice: cartRef.value?.extraDeliveryPrice,
   },
 })
+
+const link = useFieldValue<string>('productLink')
+const extraDeliveryPrice = useFieldValue<number>('extraDeliveryPrice')
+
+watchDebounced(
+  link,
+  () => {
+    const userURL = new URL(link.value).hostname
+    const urlShop = shops.value.find(
+      (i) => new URL(i.shopLink).hostname === userURL,
+    )
+
+    if (urlShop) {
+      setFieldValue('extraDeliveryPrice', urlShop.deliveryPrice)
+      return
+    } else {
+      setFieldValue('extraDeliveryPrice', 0)
+      return
+    }
+  },
+  { debounce: 600 },
+)
 
 const onSubmit = handleSubmit((val) => {
   if (cartRef.value) {
@@ -51,7 +79,7 @@ const onSubmit = handleSubmit((val) => {
         <li>Комиссия за выкуп — 200 ₽</li>
       </ul>
 
-      <DialogBannedItems />
+      <DialogBannedItems v-if="!weight || weight == 0" />
 
       <ul
         class="text-failure mt-6 list-outside list-disc space-y-1 self-start pl-7 text-sm"
@@ -127,7 +155,10 @@ const onSubmit = handleSubmit((val) => {
                 class="bg-telegram-bg-secondary w-full rounded-lg p-3 font-medium outline-none"
               />
             </div>
-            <div class="space-y-2 text-sm">
+            <div
+              class="space-y-2 text-sm"
+              v-if="extraDeliveryPrice && extraDeliveryPrice > 0"
+            >
               <p class="text-telegram-link">
                 +340 ₽ за доставку с этого магазина на склад
               </p>

@@ -5,20 +5,43 @@ const dialog = useDialogStore()
 const { categoryRef } = storeToRefs(dialog)
 
 const cartStore = useCartStore()
+const { shops } = storeToRefs(cartStore)
 
-const { handleSubmit } = useForm({
+const { handleSubmit, setFieldValue } = useForm({
   validationSchema: toTypedSchema(storeItemSchema),
   initialValues: {
     weight: categoryRef.value?.categoryDefWeight,
   },
 })
 
+const link = useFieldValue<string>('productLink')
+const extraDeliveryPrice = useFieldValue<number>('extraDeliveryPrice')
+
+watchDebounced(
+  link,
+  () => {
+    const userURL = new URL(link.value).hostname
+    const shop = shops.value.find(
+      (i) => new URL(i.shopLink).hostname === userURL,
+    )
+
+    if (shop) {
+      setFieldValue('extraDeliveryPrice', shop.deliveryPrice)
+      return
+    } else {
+      setFieldValue('extraDeliveryPrice', 0)
+      return
+    }
+  },
+  { debounce: 600 },
+)
+
 const onSubmit = handleSubmit((val) => {
   if (categoryRef.value) {
     const storeCart: StoreItem = {
       ...val,
-      categoryRef: categoryRef.value,
       itemId: cartStore.storeCarts.length.toString(),
+      categoryRef: categoryRef.value,
     }
     cartStore.addItem(storeCart)
     dialog.toggleOpenDialog()
@@ -50,7 +73,11 @@ const onSubmit = handleSubmit((val) => {
         <li>Комиссия за выкуп — 200 ₽</li>
       </ul>
 
-      <DialogBannedItems />
+      <DialogBannedItems
+        v-if="
+          categoryRef?.categoryDefWeight == 0 || !categoryRef?.categoryDefWeight
+        "
+      />
 
       <ul
         class="text-failure mt-6 list-outside list-disc space-y-1 self-start pl-7 text-sm"
@@ -94,7 +121,13 @@ const onSubmit = handleSubmit((val) => {
                 inputmode="numeric"
               />
             </div>
-            <div class="space-y-1" v-if="!categoryRef?.categoryDefWeight">
+            <div
+              class="space-y-1"
+              v-if="
+                !categoryRef?.categoryDefWeight ||
+                categoryRef.categoryDefWeight == 0
+              "
+            >
               <label
                 for="weight"
                 class="text-telegram-hint flex gap-x-1 text-sm"
@@ -110,20 +143,25 @@ const onSubmit = handleSubmit((val) => {
               />
             </div>
           </div>
-          <div class="space-y-3">
+          <Field
+            class="space-y-3"
+            as="div"
+            name="productLink"
+            v-slot="{ field }"
+          >
             <div class="space-y-1">
               <label for="link" class="text-telegram-hint flex gap-x-1 text-sm">
                 <p>Ссылка на товар</p>
                 <span class="text-failure">*</span>
               </label>
-              <Field
+              <input
+                v-bind="field"
                 placeholder="https://farfetch.com/..."
-                name="productLink"
                 id="link"
                 class="bg-telegram-bg-secondary w-full rounded-lg p-3 font-medium outline-none"
               />
             </div>
-            <div class="space-y-2 text-sm">
+            <div class="space-y-2 text-sm" v-if="extraDeliveryPrice">
               <p class="text-telegram-link">
                 +340 ₽ за доставку с этого магазина на склад
               </p>
@@ -133,7 +171,7 @@ const onSubmit = handleSubmit((val) => {
                 — добавляем её к общей стоимости заказа.
               </p>
             </div>
-          </div>
+          </Field>
           <button
             type="submit"
             class="flex items-center gap-x-2 self-center rounded-lg bg-[#00FF00] px-2.5 py-2 font-medium uppercase text-[#fff]"

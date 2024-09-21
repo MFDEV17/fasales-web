@@ -77,7 +77,7 @@ onClickOutside(cartRef, (e) => {
           <div class="relative">
             <div
               :data-isOpen="counterOpen"
-              class="absolute data-[isOpen=false]:opacity-0 data-[isOpen=true]:animate-counterShow data-[isOpen=true]:shadow-[0px_0px_12px_0px_rgba(0,0,0,0.2)] data-[isOpen=false]:animate-counterHide transition-all flex flex-col justify-between h-[88px] -top-[1.8rem] -left-[12%] w-10 bg-telegram-btn items-center rounded-[10px] z-10 py-1.5"
+              class="absolute data-[isOpen=false]:pointer-events-none data-[isOpen=false]:opacity-0 data-[isOpen=true]:animate-counterShow data-[isOpen=true]:shadow-[0px_0px_12px_0px_rgba(0,0,0,0.2)] data-[isOpen=false]:animate-counterHide transition-all flex flex-col justify-between h-[88px] -top-[1.8rem] -left-[12%] w-10 bg-telegram-btn items-center rounded-[10px] z-10 py-1.5"
             >
               <IconsPlusButton
                 @click="

@@ -11,7 +11,7 @@ const { dialogType, dialogStep, dialogOpen } = storeToRefs(dialog)
       />
 
       <DialogContent
-        class="text-telegram-link data-[state=open]:animate-contentShow bg-telegram-bg-secondary fixed left-[50%] top-[50%] z-[100] h-full max-h-[80dvh] w-[90vw] max-w-screen-md translate-x-[-50%] translate-y-[-50%] overflow-y-scroll rounded-2xl outline-none"
+        class="text-telegram-link data-[state=open]:animate-contentShow bg-telegram-bg-secondary fixed left-[50%] top-[50%] z-[100] h-full max-h-[75dvh] w-[90vw] max-w-screen-md translate-x-[-50%] translate-y-[-50%] overflow-y-scroll rounded-2xl outline-none"
       >
         <DialogTitle
           class="bg-telegram-bg-primary sticky top-0 p-4 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.15)]"

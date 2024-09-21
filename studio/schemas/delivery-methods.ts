@@ -3,7 +3,8 @@ import {defineField, defineType} from 'sanity'
 export const deliveryMethod = defineType({
   title: 'Методы доставки',
   name: 'deliveryMethod',
-  type: 'document',
+  type: 'object',
+  hidden: true,
   fields: [
     defineField({
       title: 'Наименоваение метода',

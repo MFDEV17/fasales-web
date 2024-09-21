@@ -12,8 +12,8 @@ export const schemaTypes = [
   category,
   currency,
   deliveryCountry,
-  deliveryMethod,
   managers,
+  deliveryMethod,
   redemptionFee,
   shop,
 ]

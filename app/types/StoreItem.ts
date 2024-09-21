@@ -16,6 +16,7 @@ export const storeItemSchema = object({
     .url('Некорректная ссылка')
     .required('Некорректная ссылка'),
   count: number().max(10).default(1),
+  extraDeliveryPrice: number().optional(),
 })
 
 export type StoreItem = {
