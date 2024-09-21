@@ -108,7 +108,7 @@ const { currencies, countries, countryChoice, methodChoice, currencyChoice } =
                   class="size-4 border-2 flex items-center justify-center border-telegram-btn rounded-full"
                 >
                   <RadioGroupIndicator
-                    class="size-2 bg-telegram-btn rounded-full"
+                    class="size-2 bg-telegram-btn rounded-full data-[state=checked]:animate-checkboxShow"
                   />
                 </RadioGroupItem>
                 <label :for="m._key">{{ m.methodName }}</label>

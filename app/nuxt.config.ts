@@ -56,6 +56,14 @@ export default defineNuxtConfig({
             from: { opacity: '1' },
             to: { opacity: '0' },
           },
+          checkboxShow: {
+            from: { opacity: '0', transform: 'scale(0.60)' },
+            to: { opacity: '1', transform: 'scale(1)' },
+          },
+          checkboxHide: {
+            from: { opacity: '1', transform: 'scale(1)' },
+            to: { opacity: '0', transform: 'scale(0.9)' },
+          },
           contentShow: {
             from: {
               opacity: '0',
@@ -82,6 +90,8 @@ export default defineNuxtConfig({
           contentHide: 'contentHide 250ms cubic-bezier(0.16, 1, 0.3, 1)',
           'collapsible-down': 'collapsible-down 0.3s ease-in-out',
           'collapsible-up': 'collapsible-up 0.3s ease-in-out',
+          checkboxShow: 'checkboxShow 200ms ease-in-out',
+          checkboxHide: 'checkboxHide 200ms ease-in-out',
         },
         screens: {
           md: '393px',
