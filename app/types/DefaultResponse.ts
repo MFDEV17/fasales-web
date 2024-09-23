@@ -1,9 +1,40 @@
-import type { Currency } from './Currency'
-import type { DeliveryCountry } from './DeliveryCountry'
-import type { Shop } from './Shop'
+export type DefaultResponse = {
+  deliveryCountry: DeliveryCountry
+  deliveryMethods: DeliveryMethods
+  currencies: { [key: string]: Currency }
+}
 
-export interface DefaultResponse {
-  currencies: Currency[]
-  countries: DeliveryCountry[]
-  shops: Shop[]
+export type Currency = {
+  currencySymbol: string
+  _id: string
+  currencyName: string
+  amountToEuro: number
+}
+
+export type DeliveryCountry = {
+  countryName: string
+}
+
+export type DeliveryMethods = {
+  mail: DeliveryMethod
+  courier: DeliveryMethod
+}
+
+export type DeliveryMethod = {
+  methodName: string
+  _key: string
+  priceRange: PriceRange
+  deliveryTime: number
+  hint: string
+}
+
+export type PriceRange = {
+  rangeList: RangeList[]
+}
+
+export type RangeList = {
+  deliveryPrice: number
+  to: number
+  _key: string
+  from: number
 }

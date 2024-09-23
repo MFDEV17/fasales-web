@@ -11,11 +11,6 @@ export const currency = defineType({
       type: 'string',
     }),
     defineField({
-      title: 'Код валюты',
-      name: 'currencyCode',
-      type: 'string',
-    }),
-    defineField({
       title: 'Символ валюты',
       name: 'currencySymbol',
       type: 'string',
@@ -23,6 +18,11 @@ export const currency = defineType({
     defineField({
       title: 'Курс по отношению к евро',
       name: 'amountToEuro',
+      type: 'number',
+    }),
+    defineField({
+      title: 'Комиссия за выкуп в евро',
+      name: 'buyCommission',
       type: 'number',
     }),
   ],

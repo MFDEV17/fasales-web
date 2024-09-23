@@ -4,7 +4,6 @@ import {currency} from './currency'
 import {deliveryCountry} from './delivery-country'
 import {deliveryMethod} from './delivery-methods'
 import {managers} from './managers'
-import {redemptionFee} from './redemption-fee'
 import {shop} from './shops'
 
 export const schemaTypes = [
@@ -14,6 +13,5 @@ export const schemaTypes = [
   deliveryCountry,
   managers,
   deliveryMethod,
-  redemptionFee,
   shop,
 ]

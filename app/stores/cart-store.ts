@@ -1,232 +1,50 @@
-import type { Currency } from '~/types/Currency'
-import type { DeliveryCountry, DeliveryMethod } from '~/types/DeliveryCountry'
-import type { Shop } from '~/types/Shop'
-import type { StoreItem } from '~/types/StoreItem'
+import {
+  type DeliveryMethod,
+  type DeliveryCountry,
+  type DeliveryMethods,
+  type Currency,
+} from '~/types/DefaultResponse'
 
 export const useCartStore = defineStore('carts', () => {
-  const currencyChoice = ref<Currency | null>(null)
-  const countryChoice = ref<DeliveryCountry | null>(null)
-  const methodChoice = ref<DeliveryMethod | null>(null)
-  const storeCarts = ref<StoreItem[]>([])
-  const shops = ref<Shop[]>([])
+  const country = ref<DeliveryCountry>()
+  const methods = ref<DeliveryMethods>()
+  const currencies = ref<{ [key: string]: Currency }>()
 
-  const countries = ref<DeliveryCountry[]>([])
-  const methods = ref<DeliveryMethod[]>([])
-  const currencies = ref<Currency[]>([])
+  const currencyChoice = ref<Currency>()
+  const methodChoice = ref<DeliveryMethod>()
 
-  const addItem = (storeItem: StoreItem): void => {
-    storeCarts.value.push(storeItem)
+  const initMethods = (methodsData: DeliveryMethods) => {
+    methods.value = methodsData
   }
 
-  const initShopArray = (shopList: Shop[]) => {
-    shops.value = shopList
+  const initCurrencies = (currencyData: { [key: string]: Currency }) => {
+    currencies.value = currencyData
   }
 
-  const editItem = (itemId: string, fieldsToUpdate: Partial<StoreItem>) => {
-    const itemIndex = storeCarts.value.findIndex((c) => c.itemId === itemId)
-    if (itemIndex >= 0) {
-      storeCarts.value[itemIndex] = {
-        ...storeCarts.value[itemIndex],
-        ...fieldsToUpdate,
-      }
-    }
+  const setMethod = (method: DeliveryMethod) => {
+    methodChoice.value = method
   }
 
-  const removeItem = (itemId: string): void => {
-    const itemIndex = storeCarts.value.findIndex((i) => i.itemId == itemId)
-    if (itemIndex >= 0) {
-      storeCarts.value.splice(itemIndex, 1)
-    }
+  const setCurrency = (currency: Currency) => {
+    currencyChoice.value = currency
   }
 
-  const incrementCount = (itemId: string): void => {
-    const item = storeCarts.value.find((i) => i.itemId === itemId)
-    if (item) item.count += 1
+  const setCountry = (countryData: DeliveryCountry) => {
+    country.value = countryData
   }
-
-  const decrementCount = (itemId: string): void => {
-    const item = storeCarts.value.find((i) => i.itemId === itemId)
-    if (item && item.count > 1) {
-      item.count -= 1
-    }
-  }
-
-  const setCurrencies = (currencyList: Currency[]): void => {
-    currencies.value = currencyList
-  }
-
-  const setMethods = (methodList: DeliveryMethod[]): void => {
-    methods.value = methodList
-  }
-
-  const setCountries = (countriesList: DeliveryCountry[]): void => {
-    countries.value = countriesList
-  }
-
-  const setCurrencyChoice = (currencyId: string): void => {
-    const currency = currencies.value.find((c) => c._id == currencyId)
-
-    if (currency) {
-      currencyChoice.value = currency
-    }
-  }
-
-  const setCountryChoice = (countryId: string) => {
-    const country = countries.value.find((c) => c._id == countryId)
-
-    // ⡏⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠙⠉⠉⠉⠹
-    // ⡇⢸⣿⡟⠛⢿⣷⠀⢸⣿⡟⠛⢿⣷⡄⢸⣿⡇⠀⢸⣿⡇⢸⣿⡇⠀⢸⣿⡇⠀
-    // ⡇⢸⣿⣧⣤⣾⠿⠀⢸⣿⣇⣀⣸⡿⠃⢸⣿⡇⠀⢸⣿⡇⢸⣿⣇⣀⣸⣿⡇⠀
-    // ⡇⢸⣿⡏⠉⢹⣿⡆⢸⣿⡟⠛⢻⣷⡄⢸⣿⡇⠀⢸⣿⡇⢸⣿⡏⠉⢹⣿⡇⠀
-    // ⡇⢸⣿⣧⣤⣼⡿⠃⢸⣿⡇⠀⢸⣿⡇⠸⣿⣧⣤⣼⡿⠁⢸⣿⡇⠀⢸⣿⡇⠀
-    // ⣇⣀⣀⣀⣀⣀⣀⣄⣀⣀⣀⣀⣀⣀⣀⣠⣀⡈⠉⣁⣀⣄⣀⣀⣀⣠⣀⣀⣀⣰
-    // ⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷
-    // ⡆⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑⢝⣇
-    // ⡆⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐⢕⢽
-    // ⡗⢰⣶⣶⣦⣝⢝⢕⢕⠅⡆⢕⢕⢕⢕⢕⣴⠏⣠⡶⠛⡉⡉⡛⢶⣦⡀⠐⣕⢕
-    // ⡝⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇⡀⢕
-    // ⡝⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀⢱⢕
-    // ⡝⠁⣠⣾⠟⡉⡉⡉⠻⣦⣻⣿⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣦⣥⣿⡇⡿⣰⢗⢄
-    // ⠁⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕⢕⢕
-    // ⡀⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵⣵⣿
-    // ⡻⣄⣻⣿⣌⠘⢿⣷⣥⣿⠇⣿⣿⣿⣿⣿⣿⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-    // ⣷⢄⠻⣿⣟⠿⠦⠍⠉⣡⣾⣿⣿⣿⣿⣿⣿⢸⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⠟
-    // ⡕⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿⠁⣠
-    // ⡝⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀⣈⠙
-    // ⡝⡵⡕⡀⠑⠳⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⢉⡠⡲⡫⡪⡪⡣
-    // I HATE TYPESCRIPT I HATE TYPESCRIPT I HATE TYPESCRIPT
-
-    if (country) {
-      const sameMethodIndex = country.deliveryMethods?.findIndex(
-        (m) => m.methodName == methodChoice.value?.methodName,
-      )
-
-      if (
-        sameMethodIndex != undefined &&
-        country.deliveryMethods &&
-        country.deliveryMethods[sameMethodIndex]
-      ) {
-        countryChoice.value = country
-        methodChoice.value = country.deliveryMethods[sameMethodIndex]
-      } else {
-        countryChoice.value = country
-
-        if (
-          country.deliveryMethods &&
-          country.deliveryMethods[0] !== undefined
-        ) {
-          methodChoice.value = country.deliveryMethods[0]
-        }
-      }
-    }
-  }
-
-  const setMethodChoice = (methodKey: string) => {
-    if (countryChoice.value?.deliveryMethods) {
-      const method = countryChoice.value?.deliveryMethods.find(
-        (m) => m._key == methodKey,
-      )
-      if (method) {
-        methodChoice.value = method
-      }
-    }
-  }
-
-  const getSumWeight = computed(() => {
-    const weightSum = storeCarts.value.reduce(
-      (curr, sum) => curr + sum.weight * sum.count,
-      0,
-    )
-
-    const methodIndex = methodChoice.value?.priceRange.rangeList.findIndex(
-      (i) => weightSum >= i.from && weightSum <= i.to,
-    )
-
-    if (methodIndex && methodIndex >= 0) {
-      const courierMethodPrice =
-        countryChoice.value?.deliveryMethods[0].priceRange.rangeList[
-          methodIndex
-        ]
-      const mailMethodPrice =
-        countryChoice.value?.deliveryMethods[1].priceRange.rangeList[
-          methodIndex
-        ]
-      if (mailMethodPrice && courierMethodPrice && currencyChoice.value) {
-        const diff =
-          (courierMethodPrice?.deliveryPrice - mailMethodPrice?.deliveryPrice) *
-          currencyChoice.value?.amountToEuro
-
-        return { diff }
-      }
-    }
-  })
-
-  const calculateResult = computed(() => {
-    let itemsPriceSumEuro = 0
-    let itemsPriceSumUserCurrency = 0
-    let itemWeightSum = 0
-    let deliveryPrice = 0
-
-    for (const prod of storeCarts.value) {
-      itemsPriceSumEuro += prod.price * prod.count
-      itemWeightSum += prod.weight
-    }
-
-    if (currencyChoice.value) {
-      itemsPriceSumUserCurrency =
-        itemsPriceSumEuro * currencyChoice.value.amountToEuro
-    }
-
-    if (methodChoice.value?.priceRange) {
-      for (const range of methodChoice.value?.priceRange.rangeList) {
-        if (itemWeightSum >= range.from && itemWeightSum <= range.to) {
-          deliveryPrice = range.deliveryPrice
-        }
-      }
-    }
-
-    const deliveryTime = methodChoice.value?.deliveryTime
-
-    const deliveryPriceCurrencyChoice =
-      deliveryPrice * (currencyChoice.value?.amountToEuro || 1)
-
-    const finalSumPrice =
-      deliveryPriceCurrencyChoice + itemsPriceSumUserCurrency
-
-    return {
-      finalSumPrice,
-      itemsPriceSumUserCurrency,
-      itemsPriceSumEuro,
-      itemWeightSum,
-      deliveryTime,
-      deliveryPrice,
-      currencyChoice,
-      deliveryPriceCurrencyChoice,
-    }
-  })
 
   return {
-    setCountryChoice,
-    setCurrencyChoice,
-    setMethodChoice,
-    setCurrencies,
-    setMethods,
-    setCountries,
-    removeItem,
-    addItem,
-    incrementCount,
-    decrementCount,
-    editItem,
-    initShopArray,
-    getSumWeight,
-
-    calculateResult,
-    shops,
-    currencyChoice,
-    countryChoice,
-    methodChoice,
+    country,
+    methods,
     currencies,
-    countries,
-    storeCarts,
+    currencyChoice,
+    methodChoice,
+
+    setMethod,
+    setCurrency,
+    setCountry,
+
+    initMethods,
+    initCurrencies,
   }
 })

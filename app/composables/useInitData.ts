@@ -2,32 +2,30 @@ import type { DefaultResponse } from '~/types/DefaultResponse'
 
 export default function useInitData() {
   const store = useCartStore()
-  const { currencies, countries } = storeToRefs(store)
 
   const get = async () => {
-    if (currencies.value.length == 0 && countries.value.length == 0) {
-      const query = groq`
-      {
-        'currencies': *[_type == 'currency'],
-        'countries': *[_type == 'countries'],
-        'shops': *[_type == 'shops']
-      }
+    const query = groq`
+        {
+          'deliveryCountry': *[_type == 'countries'][0]{'countryName': deliveryCountry},
+          'deliveryMethods': *[_type == 'countries'][0] {
+            'mail': deliveryMethods[][0],
+            'courier': deliveryMethods[][1]
+          },
+          'currencies': {
+            'usdt': *[_type == 'currency'][0],
+            'rub': *[_type == 'currency'][1]
+          }
+        }
     `
-      const { data } = await useSanityQuery<DefaultResponse>(query)
+    const { data } = await useSanityQuery<DefaultResponse>(query)
 
-      if (data.value) {
-        const firstCountry = data.value.countries[0]
+    if (data.value) {
+      store.initCurrencies(data.value.currencies)
+      store.initMethods(data.value.deliveryMethods)
 
-        store.setCountries(data.value.countries)
-        store.setMethods(firstCountry.deliveryMethods)
-        store.setCurrencies(data.value.currencies)
-
-        store.setCountryChoice(firstCountry._id)
-        store.setMethodChoice(firstCountry.deliveryMethods[0]._key)
-        store.setCurrencyChoice(data.value.currencies[0]._id)
-
-        store.initShopArray(data.value.shops)
-      }
+      store.setMethod(data.value.deliveryMethods.mail)
+      store.setCurrency(data.value.currencies.usdt)
+      store.setCountry(data.value.deliveryCountry)
     }
   }
 
