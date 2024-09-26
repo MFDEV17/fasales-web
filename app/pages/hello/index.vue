@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const store = useCartStore()
-const { methods, country, generateShopList } = storeToRefs(store)
+const { generateShopList } = storeToRefs(store)
 await callOnce(store.initState)
 </script>
 <template>

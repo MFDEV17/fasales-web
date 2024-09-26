@@ -61,6 +61,7 @@ export type Currency = {
   _id: string
   currencyName: string
   amountToEuro: number
+  buyCommission: number
 }
 
 export type DeliveryCountry = {

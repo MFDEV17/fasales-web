@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { Category } from '~/types/Category'
-
-const query = groq`*[_type == 'categories']{_id, categoryName, singleName, categoryDefWeight, categoryImg}`
-const { data: categories } = await useSanityQuery<Category[]>(query)
+import type { Category } from '~/types/types'
 
 const dialogStore = useDialogStore()
-const goNextStep = (categoryRef: Category) => {
-  dialogStore.changeType('create')
-  dialogStore.setCategoryRef(categoryRef)
+const cartStore = useCartStore()
+
+const { categories } = storeToRefs(cartStore)
+
+const goToNextStep = (category: Category) => {
+  cartStore.setCategory(category)
   dialogStore.goNextStep()
 }
 </script>
@@ -19,7 +19,7 @@ const goNextStep = (categoryRef: Category) => {
     <div
       class="flex cursor-pointer flex-col items-center space-y-2 text-sm font-medium"
       v-for="c in categories"
-      @click="goNextStep(c)"
+      @click="goToNextStep(c)"
     >
       <div class="bg-telegram-bg-primary rounded-[24px] p-4">
         <NuxtImg :src="$urlFor(c.categoryImg).url()" class="size-[60px]" />

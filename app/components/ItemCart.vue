@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { StoreItem } from '~/types/StoreItem'
+import type { StoreItem } from '~/types/types'
 
 const props = defineProps<{ cart: StoreItem }>()
 
@@ -83,7 +83,7 @@ onClickOutside(cartRef, (e) => {
                 @click="
                   (e) => {
                     e.stopPropagation()
-                    carts.incrementCount(cart.itemId)
+                    carts.incermentCartCount(cart.itemId)
                   }
                 "
               />
@@ -91,7 +91,7 @@ onClickOutside(cartRef, (e) => {
                 @click="
                   (e) => {
                     e.stopPropagation()
-                    carts.decrementCount(cart.itemId)
+                    carts.decermentCartCount(cart.itemId)
                   }
                 "
               />
@@ -113,7 +113,7 @@ onClickOutside(cartRef, (e) => {
             @click="
               (e) => {
                 e.stopPropagation()
-                carts.removeItem(cart.itemId)
+                carts.removeCart(cart.itemId)
               }
             "
             class="inline-flex size-8 items-center justify-center rounded-lg bg-[#F25A5A]"
