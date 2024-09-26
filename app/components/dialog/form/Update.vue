@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { storeItemSchema } from '~/types/StoreItem'
+import { storeItemSchema } from '~/types/types'
 
 const dialog = useDialogStore()
 const { cartRef } = storeToRefs(dialog)
@@ -47,7 +47,7 @@ watchDebounced(
 
 const onSubmit = handleSubmit((val) => {
   if (cartRef.value) {
-    cartStore.editItem(cartRef.value.itemId, val)
+    cartStore.editCart(cartRef.value.itemId, val)
     dialog.toggleOpenDialog()
   }
 })

@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { storeItemSchema, type StoreItem } from '~/types/StoreItem'
+import { storeItemSchema, type StoreItem } from '~/types/types'
 
 const dialog = useDialogStore()
-const { categoryRef } = storeToRefs(dialog)
 
 const cartStore = useCartStore()
-const { shops } = storeToRefs(cartStore)
+const { shops, carts, categoryChoice } = storeToRefs(cartStore)
 
 const { handleSubmit, setFieldValue } = useForm({
   validationSchema: toTypedSchema(storeItemSchema),
   initialValues: {
-    weight: categoryRef.value?.categoryDefWeight,
+    weight: categoryChoice.value?.categoryDefWeight,
   },
 })
 
@@ -37,13 +36,13 @@ watchDebounced(
 )
 
 const onSubmit = handleSubmit((val) => {
-  if (categoryRef.value) {
+  if (categoryChoice.value) {
     const storeCart: StoreItem = {
       ...val,
-      itemId: cartStore.storeCarts.length.toString(),
-      categoryRef: categoryRef.value,
+      itemId: carts.value.toString(),
+      categoryRef: categoryChoice.value,
     }
-    cartStore.addItem(storeCart)
+    cartStore.addCart(storeCart)
     dialog.toggleOpenDialog()
   }
 })
@@ -53,21 +52,21 @@ const onSubmit = handleSubmit((val) => {
   <div class="bg-telegram-bg-primary text-telegram-text min-h-full px-5 py-6">
     <div class="flex flex-col items-center justify-center">
       <NuxtImg
-        :src="urlFor(categoryRef.categoryImg).url()"
+        :src="urlFor(categoryChoice.categoryImg).url()"
         class="size-[92px]"
-        v-if="categoryRef?.categoryImg"
+        v-if="categoryChoice?.categoryImg"
       />
       <div class="mt-5 flex items-center gap-x-2 text-2xl font-semibold">
         <h3>
-          {{ categoryRef?.singleName || categoryRef?.categoryName }}
+          {{ categoryChoice?.singleName || categoryChoice?.categoryName }}
         </h3>
 
         <IconsPencil />
       </div>
       <ul class="text-telegram-hint mt-2 space-y-1 text-center text-sm">
-        <li v-if="categoryRef?.categoryDefWeight">
+        <li v-if="categoryChoice?.categoryDefWeight">
           Расчётный вес —
-          {{ categoryRef?.categoryDefWeight }}
+          {{ categoryChoice?.categoryDefWeight }}
           кг
         </li>
         <li>Комиссия за выкуп — 200 ₽</li>
@@ -75,7 +74,8 @@ const onSubmit = handleSubmit((val) => {
 
       <DialogBannedItems
         v-if="
-          categoryRef?.categoryDefWeight == 0 || !categoryRef?.categoryDefWeight
+          categoryChoice?.categoryDefWeight == 0 ||
+          !categoryChoice?.categoryDefWeight
         "
       />
 
@@ -124,8 +124,8 @@ const onSubmit = handleSubmit((val) => {
             <div
               class="space-y-1"
               v-if="
-                !categoryRef?.categoryDefWeight ||
-                categoryRef.categoryDefWeight == 0
+                !categoryChoice?.categoryDefWeight ||
+                categoryChoice.categoryDefWeight == 0
               "
             >
               <label
