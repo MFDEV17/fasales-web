@@ -21,7 +21,7 @@ export const currency = defineType({
       type: 'number',
     }),
     defineField({
-      title: 'Комиссия за выкуп в евро',
+      title: 'Комиссия за выкуп в валюте',
       name: 'buyCommission',
       type: 'number',
     }),

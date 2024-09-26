@@ -69,9 +69,9 @@ export const useCartStore = defineStore('cartStore', {
     },
 
     editCart(cartId: string, propsToChange: Partial<StoreItem>) {
-      let cartToEdit = this.carts.find((c) => c.itemId === cartId)
-      if (cartToEdit) {
-        cartToEdit = { ...cartToEdit, ...propsToChange }
+      const cartIndex = this.carts.findIndex((i) => i.itemId === cartId)
+      if (cartIndex >= 0) {
+        this.carts[cartIndex] = { ...this.carts[cartIndex], ...propsToChange }
       }
     },
 
@@ -84,7 +84,7 @@ export const useCartStore = defineStore('cartStore', {
 
     decermentCartCount(cartId: string) {
       const cartToDecrement = this.carts.find((c) => c.itemId === cartId)
-      if (cartToDecrement) {
+      if (cartToDecrement && cartToDecrement.count > 1) {
         cartToDecrement.count--
       }
     },

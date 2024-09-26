@@ -1,56 +1,40 @@
-import type { Category } from '~/types/Category'
-import type { StoreItem } from '~/types/StoreItem'
+import type { Category, StoreItem } from '~/types/types'
 
-export const useDialogStore = defineStore('dialog', () => {
-  const dialogType = ref<'create' | 'update'>('create')
-  const dialogStep = ref<number>(1)
-  const dialogOpen = ref(false)
-
-  const categoryRef = ref<Category>()
-  const cartRef = ref<StoreItem>()
-
-  const changeType = (type: 'create' | 'update') => {
-    dialogType.value = type
-  }
-  const goNextStep = () => {
-    dialogStep.value += 1
-  }
-  const goPrevStep = () => {
-    dialogStep.value -= 1
-  }
-  const resetDialog = () => {
-    dialogStep.value = 1
-  }
-  const setCategoryRef = (category: Category) => {
-    categoryRef.value = category
-  }
-  const setCartRef = (cart: StoreItem) => {
-    cartRef.value = cart
-  }
-  const resetCategoryRef = () => {
-    categoryRef.value
-  }
-  const resetCartRef = () => {}
-
-  const toggleOpenDialog = () => {
-    dialogOpen.value = !dialogOpen.value
-  }
-
-  return {
-    dialogOpen,
-    dialogType,
-    dialogStep,
-    cartRef,
-    categoryRef,
-
-    goNextStep,
-    goPrevStep,
-    resetDialog,
-    setCategoryRef,
-    resetCategoryRef,
-    resetCartRef,
-    setCartRef,
-    changeType,
-    toggleOpenDialog,
-  }
+export const useDialogStore = defineStore('dialog', {
+  state: () => ({
+    dialogType: 'create' as 'create' | 'update',
+    dialogStep: 1,
+    dialogOpen: false,
+    cartRef: null as StoreItem | null,
+    categoryRef: null as Category | null,
+  }),
+  actions: {
+    changeType(type: 'create' | 'update') {
+      this.dialogType = type
+    },
+    goNextStep() {
+      this.dialogStep++
+    },
+    goPrevStep() {
+      if (this.dialogStep > 1) this.dialogStep--
+    },
+    resetDialog() {
+      this.dialogStep = 1
+    },
+    toggleOpenDialog() {
+      this.dialogOpen = !this.dialogOpen
+    },
+    setCartRef(cart: StoreItem) {
+      this.cartRef = cart
+    },
+    resetCartRef() {
+      this.cartRef = null
+    },
+    setCategoryRef(category: Category) {
+      this.categoryRef = category
+    },
+    resetCategoryRef() {
+      this.categoryRef = null
+    },
+  },
 })
