@@ -36,6 +36,31 @@ export const useCartStore = defineStore('cartStore', {
 
       return shopList
     },
+
+    getRangeDiff(): number | null {
+      const weightSum = this.getWeightSum
+      const index = this.methodChoice?.priceRange.rangeList.findIndex(
+        (i) => weightSum >= i.from && weightSum <= i.to,
+      )
+
+      if (index && index >= 0) {
+        if (this.methods && this.methods['courier'] && this.methods['mail']) {
+          return (
+            (this.methods['courier'].priceRange.rangeList[index].deliveryPrice -
+              this.methods['mail'].priceRange.rangeList[index].deliveryPrice) *
+            (this.currencyChoice?.amountToEuro || 1)
+          )
+        }
+      }
+
+      return null
+    },
+
+    getWeightSum: (state) =>
+      state.carts.reduce(
+        (currSum, currCart) => currCart.weight * currCart.count + currSum,
+        0,
+      ),
   },
 
   actions: {
