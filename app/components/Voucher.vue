@@ -1,15 +1,8 @@
 <script setup lang="ts">
 const open = ref(false);
-
 const store = useCartStore();
-const { calculateResult, storeCarts } = storeToRefs(store);
-const {
-  itemsPriceSumUserCurrency,
-  itemsPriceSumEuro,
-  itemWeightSum,
-  currencyChoice,
-  deliveryPriceCurrencyChoice,
-} = calculateResult.value;
+const { getWeightSum, getDeliveryPrice, getCartsPrice, currencyChoice, carts } =
+  storeToRefs(store);
 </script>
 
 <template>
@@ -24,21 +17,17 @@ const {
         <li class="flex items-center justify-between">
           <p>Стоимость товаров</p>
           <p>
-            {{ itemsPriceSumUserCurrency }} {{ currencyChoice?.currencySymbol }}
-            <span class="text-telegram-hint px-0.5">/</span>
-            <span class="pr-0.5">€</span>{{ itemsPriceSumEuro }}
+            {{ getCartsPrice?.sumEuro }} /
+            {{ getCartsPrice?.sumCurrencyChoice }}
           </p>
         </li>
         <li class="flex items-center justify-between">
           <p>Стоимость доставки</p>
-          <p>
-            {{ deliveryPriceCurrencyChoice
-            }}<span class="pl-0.5">{{ currencyChoice?.currencySymbol }}</span>
-          </p>
+          <p>{{ getDeliveryPrice }} {{ currencyChoice?.currencySymbol }}</p>
         </li>
         <li class="flex items-center justify-between">
           <p>Вес посылки</p>
-          <p>{{ itemWeightSum }} кг</p>
+          <p>{{ getWeightSum }} кг</p>
         </li>
       </ul>
       <CollapsibleContent
@@ -46,30 +35,21 @@ const {
       >
         <ol class="space-y-2 py-5 [counter-reset:chapter_0]">
           <li
-            v-for="{
-              itemId,
-              weight,
-              price,
-              categoryRef: { singleName, categoryName },
-            } in storeCarts"
             class="text-telegram-hint flex items-center gap-x-2 [counter-increment:chapter_1] before:[content:counter(chapter)'.']"
-            :key="itemId"
+            v-for="cart in carts"
           >
             <div
               class="text-telegram-text flex w-full items-center justify-between"
             >
               <p>
-                {{ singleName || categoryName }}
+                {{
+                  cart.categoryRef.singleName || cart.categoryRef.categoryName
+                }}
               </p>
-              <div class="flex items-center gap-x-1" v-if="currencyChoice">
-                <p>{{ weight }} кг</p>
+              <div class="flex items-center gap-x-1">
+                <p>{{ cart.weight }} кг</p>
                 <span class="text-telegram-hint">/</span>
-                <p>
-                  {{ price * currencyChoice?.amountToEuro
-                  }}<span class="pl-0.5">{{
-                    currencyChoice?.currencySymbol
-                  }}</span>
-                </p>
+                <p>{{ cart.price }} {{ currencyChoice?.currencySymbol }}</p>
               </div>
             </div>
           </li>

@@ -25,6 +25,28 @@ export const useCartStore = defineStore("cartStore", {
   }),
 
   getters: {
+    generateCopyMsg(): string {
+      let msg = "Привет! Хочу сделать заказ со следующих сайтов: \n\n";
+
+      for (let [shopName, itemList] of this.generateShopList) {
+        msg += `**${shopName}**\n\n`;
+
+        itemList.forEach((item, index) => {
+          msg += `${index + 1}. ${item.categoryRef.singleName || item.categoryRef.categoryName}, `;
+
+          if (item.size) {
+            msg += `размер ${item.size}, `;
+          }
+
+          msg += `стоимость €${item.price}`;
+          msg += ` — ${item.productLink}\n`;
+        });
+
+        msg += "\n";
+      }
+
+      return msg;
+    },
     generateShopList() {
       const shopList = new Map<string, StoreItem[]>();
 
@@ -37,11 +59,46 @@ export const useCartStore = defineStore("cartStore", {
       return shopList;
     },
 
+    getCartsPrice():
+      | { sumEuro: number; sumCurrencyChoice: number }
+      | undefined {
+      if (this.currencyChoice) {
+        const sumEuro = this.carts.reduce(
+          (sum, cart) => sum + cart.price * cart.count,
+          0,
+        );
+
+        return {
+          sumEuro,
+          sumCurrencyChoice: sumEuro * this.currencyChoice.amountToEuro,
+        };
+      }
+    },
+
+    getDeliveryPrice(): number | undefined {
+      if (this.currencyChoice && this.methodChoice) {
+        return (
+          this.methodChoice?.priceRange.rangeList[this.getRangeIndex]
+            .deliveryPrice * this.currencyChoice.amountToEuro
+        );
+      }
+    },
+
+    getRangeIndex(): number {
+      if (this.methodChoice) {
+        const weightSum = this.getWeightSum;
+        const index = this.methodChoice?.priceRange.rangeList.findIndex(
+          (i) => weightSum >= i.from && weightSum <= i.to,
+        );
+
+        return index;
+      }
+
+      return -1;
+    },
+
     getRangeDiff(): number | null {
-      const weightSum = this.getWeightSum;
-      const index = this.methodChoice?.priceRange.rangeList.findIndex(
-        (i) => weightSum >= i.from && weightSum <= i.to,
-      );
+      const index = this.getRangeIndex;
 
       if (index && index >= 0) {
         if (this.methods && this.methods["courier"] && this.methods["mail"]) {

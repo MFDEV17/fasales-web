@@ -22,3 +22,23 @@ export function formatDay(deliveryTime: number) {
       return "дней";
   }
 }
+
+export function getDomainWithoutTld(url: string): string | null {
+  try {
+    const parsedUrl = new URL(url);
+    const domain = parsedUrl.hostname;
+
+    const cleanDomain = domain.startsWith("www.")
+      ? domain.substring(4)
+      : domain;
+
+    const domainParts = cleanDomain.split(".");
+
+    return domainParts.length > 1
+      ? domainParts[domainParts.length - 2]
+      : domainParts[0];
+  } catch (error) {
+    console.error("Invalid URL:", error);
+    return null;
+  }
+}

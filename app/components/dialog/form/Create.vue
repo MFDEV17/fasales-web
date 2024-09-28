@@ -32,7 +32,7 @@ watchDebounced(
       return;
     }
   },
-  { debounce: 600 },
+  { debounce: 400 },
 );
 
 const onSubmit = handleSubmit((val) => {

@@ -1,5 +1,6 @@
-<script setup lang="ts"></script>
-
+<script setup lang="ts">
+const { getCartsPrice, currencyChoice, methodChoice } = useCartStore();
+</script>
 <template>
   <div>
     <StatusBar />
@@ -8,7 +9,10 @@
       <div class="flex flex-col items-center justify-center">
         <NuxtImg src="/love.png" class="size-56" />
         <div class="space-y-2 pt-4 text-center">
-          <p class="text-[40px] font-bold"></p>
+          <p class="text-[40px] font-bold" v-if="getCartsPrice">
+            {{ $formatNumber(getCartsPrice?.sumCurrencyChoice) }}
+            {{ currencyChoice?.currencySymbol }}
+          </p>
           <p class="text-telegram-hint font-medium">Финальная стоимость</p>
         </div>
         <GradientContent class="mt-8">
@@ -30,7 +34,10 @@
           <div class="text-telegram-text flex items-center gap-x-3">
             <span class="text-[44px]">📦</span>
             <div class="space-y-2">
-              <p class="font-semibold"></p>
+              <p class="font-semibold" v-if="methodChoice">
+                Доставим за ±{{ methodChoice?.deliveryTime }}
+                {{ formatDay(methodChoice?.deliveryTime) }}
+              </p>
               <p class="text-sm">Посылка приедет в отделение Почты России.</p>
             </div>
           </div>
