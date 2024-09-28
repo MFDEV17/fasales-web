@@ -30,6 +30,7 @@
     "@types/node": "^18.17.14",
     "nuxt": "^3.13.1",
     "postcss": "^8.4.39",
-    "postcss-nested": "^6.0.1"
+    "postcss-nested": "^6.0.1",
+    "prettier-plugin-tailwindcss": "^0.6.8"
   }
 }

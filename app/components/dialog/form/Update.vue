@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { storeItemSchema } from '~/types/types'
+import { storeItemSchema } from "~/types/types";
 
-const dialog = useDialogStore()
-const { cartRef } = storeToRefs(dialog)
+const dialog = useDialogStore();
+const { cartRef } = storeToRefs(dialog);
 
-const cartStore = useCartStore()
-const { shops } = storeToRefs(cartStore)
+const cartStore = useCartStore();
+const { shops } = storeToRefs(cartStore);
 
 const {
   handleSubmit,
@@ -21,36 +21,36 @@ const {
     count: cartRef.value?.count,
     extraDeliveryPrice: cartRef.value?.extraDeliveryPrice,
   },
-})
+});
 
-const link = useFieldValue<string>('productLink')
-const extraDeliveryPrice = useFieldValue<number>('extraDeliveryPrice')
+const link = useFieldValue<string>("productLink");
+const extraDeliveryPrice = useFieldValue<number>("extraDeliveryPrice");
 
 watchDebounced(
   link,
   () => {
-    const userURL = new URL(link.value).hostname
+    const userURL = new URL(link.value).hostname;
     const urlShop = shops.value.find(
       (i) => new URL(i.shopLink).hostname === userURL,
-    )
+    );
 
     if (urlShop) {
-      setFieldValue('extraDeliveryPrice', urlShop.deliveryPrice)
-      return
+      setFieldValue("extraDeliveryPrice", urlShop.deliveryPrice);
+      return;
     } else {
-      setFieldValue('extraDeliveryPrice', 0)
-      return
+      setFieldValue("extraDeliveryPrice", 0);
+      return;
     }
   },
   { debounce: 600 },
-)
+);
 
 const onSubmit = handleSubmit((val) => {
   if (cartRef.value) {
-    cartStore.editCart(cartRef.value.itemId, val)
-    dialog.toggleOpenDialog()
+    cartStore.editCart(cartRef.value.itemId, val);
+    dialog.toggleOpenDialog();
   }
-})
+});
 </script>
 
 <template>

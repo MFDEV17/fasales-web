@@ -1,15 +1,15 @@
 import type {
   DeliveryMethod,
-  DeliveryCountry,
   Currency,
   Category,
-  DefaultResponse,
   StoreItem,
-  Shop,
   BannedItem,
-} from '~/types/types'
+  DeliveryCountry,
+  Shop,
+  DefaultResponse,
+} from "~/types/types";
 
-export const useCartStore = defineStore('cartStore', {
+export const useCartStore = defineStore("cartStore", {
   state: () => ({
     methodChoice: null as DeliveryMethod | null,
     currencyChoice: null as Currency | null,
@@ -26,34 +26,34 @@ export const useCartStore = defineStore('cartStore', {
 
   getters: {
     generateShopList() {
-      const shopList = new Map<string, StoreItem[]>()
+      const shopList = new Map<string, StoreItem[]>();
 
       this.carts.forEach((c) => {
-        const hostname = new URL(c.productLink).hostname.replace('www.', '')
-        if (shopList.has(hostname)) shopList.get(hostname)?.push(c)
-        else shopList.set(hostname, [c])
-      })
+        const hostname = new URL(c.productLink).hostname.replace("www.", "");
+        if (shopList.has(hostname)) shopList.get(hostname)?.push(c);
+        else shopList.set(hostname, [c]);
+      });
 
-      return shopList
+      return shopList;
     },
 
     getRangeDiff(): number | null {
-      const weightSum = this.getWeightSum
+      const weightSum = this.getWeightSum;
       const index = this.methodChoice?.priceRange.rangeList.findIndex(
         (i) => weightSum >= i.from && weightSum <= i.to,
-      )
+      );
 
       if (index && index >= 0) {
-        if (this.methods && this.methods['courier'] && this.methods['mail']) {
+        if (this.methods && this.methods["courier"] && this.methods["mail"]) {
           return (
-            (this.methods['courier'].priceRange.rangeList[index].deliveryPrice -
-              this.methods['mail'].priceRange.rangeList[index].deliveryPrice) *
+            (this.methods["courier"].priceRange.rangeList[index].deliveryPrice -
+              this.methods["mail"].priceRange.rangeList[index].deliveryPrice) *
             (this.currencyChoice?.amountToEuro || 1)
-          )
+          );
         }
       }
 
-      return null
+      return null;
     },
 
     getWeightSum: (state) =>
@@ -66,51 +66,51 @@ export const useCartStore = defineStore('cartStore', {
   actions: {
     setMethod(methodKey: string) {
       for (const i in this.methods) {
-        const method = this.methods[i]
-        if (method._key == methodKey) this.methodChoice = method
+        const method = this.methods[i];
+        if (method._key == methodKey) this.methodChoice = method;
       }
     },
 
     setCategory(category: Category) {
-      this.categoryChoice = category
+      this.categoryChoice = category;
     },
 
     setCurrency(currencyId: string) {
       for (const i in this.currencies) {
-        const currency = this.currencies[i]
-        if (currency._id === currencyId) this.currencyChoice = currency
+        const currency = this.currencies[i];
+        if (currency._id === currencyId) this.currencyChoice = currency;
       }
     },
 
     addCart(cart: StoreItem) {
-      this.carts.push(cart)
+      this.carts.push(cart);
     },
 
     removeCart(cartId: string) {
-      const cartIndex = this.carts.findIndex((c) => c.itemId === cartId)
+      const cartIndex = this.carts.findIndex((c) => c.itemId === cartId);
       if (cartIndex >= 0) {
-        this.carts.splice(cartIndex, 1)
+        this.carts.splice(cartIndex, 1);
       }
     },
 
     editCart(cartId: string, propsToChange: Partial<StoreItem>) {
-      const cartIndex = this.carts.findIndex((i) => i.itemId === cartId)
+      const cartIndex = this.carts.findIndex((i) => i.itemId === cartId);
       if (cartIndex >= 0) {
-        this.carts[cartIndex] = { ...this.carts[cartIndex], ...propsToChange }
+        this.carts[cartIndex] = { ...this.carts[cartIndex], ...propsToChange };
       }
     },
 
     incermentCartCount(cartId: string) {
-      const cartToIncrement = this.carts.find((c) => c.itemId === cartId)
+      const cartToIncrement = this.carts.find((c) => c.itemId === cartId);
       if (cartToIncrement) {
-        cartToIncrement.count++
+        cartToIncrement.count++;
       }
     },
 
     decermentCartCount(cartId: string) {
-      const cartToDecrement = this.carts.find((c) => c.itemId === cartId)
+      const cartToDecrement = this.carts.find((c) => c.itemId === cartId);
       if (cartToDecrement && cartToDecrement.count > 1) {
-        cartToDecrement.count--
+        cartToDecrement.count--;
       }
     },
 
@@ -130,8 +130,8 @@ export const useCartStore = defineStore('cartStore', {
           'shops': *[_type == 'shops']{ _id, shopName, deliveryPrice, freeDeliveryWeight, specialCommission, shopLink },
           'bannedItems': *[_type == 'bannedCategories']{_id, bannedCategory}
         }
-      `
-      const { data } = await useSanityQuery<DefaultResponse>(query)
+      `;
+      const { data } = await useSanityQuery<DefaultResponse>(query);
 
       if (data.value) {
         const {
@@ -141,18 +141,18 @@ export const useCartStore = defineStore('cartStore', {
           deliveryCountry,
           categories,
           bannedItems,
-        } = data.value
+        } = data.value;
 
-        this.methods = deliveryMethods
-        this.currencies = currencies
-        this.shops = shops
-        this.categories = categories
-        this.bannedItems = bannedItems
+        this.methods = deliveryMethods;
+        this.currencies = currencies;
+        this.shops = shops;
+        this.categories = categories;
+        this.bannedItems = bannedItems;
 
-        this.country = deliveryCountry
-        this.methodChoice = this.methods['mail']
-        this.currencyChoice = this.currencies['rub']
+        this.country = deliveryCountry;
+        this.methodChoice = this.methods["mail"];
+        this.currencyChoice = this.currencies["rub"];
       }
     },
   },
-})
+});

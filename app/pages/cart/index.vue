@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const cartStore = useCartStore()
+const cartStore = useCartStore();
 
 const {
   currencies,
@@ -8,9 +8,9 @@ const {
   country,
   methods,
   getRangeDiff,
-} = storeToRefs(cartStore)
+} = storeToRefs(cartStore);
 
-await callOnce(cartStore.initState)
+await callOnce(cartStore.initState);
 </script>
 
 <template>
@@ -77,16 +77,16 @@ await callOnce(cartStore.initState)
                 <RadioGroupItem
                   :id="m._key"
                   :value="m._key"
-                  class="size-4 border-2 flex items-center justify-center border-telegram-btn rounded-full"
+                  class="border-telegram-btn flex size-4 items-center justify-center rounded-full border-2"
                 >
                   <RadioGroupIndicator
-                    class="size-2 bg-telegram-btn rounded-full data-[state=checked]:animate-checkboxShow"
+                    class="bg-telegram-btn data-[state=checked]:animate-checkboxShow size-2 rounded-full"
                   />
                 </RadioGroupItem>
                 <div class="space-y-0.5">
                   <label :for="m._key">{{ m.methodName }}</label>
                   <p
-                    class="text-sm text-telegram-hint"
+                    class="text-telegram-hint text-sm"
                     v-if="m.hint && getRangeDiff"
                   >
                     <span class="pr-2"
@@ -106,7 +106,7 @@ await callOnce(cartStore.initState)
 
       <DialogCreateDialogTrigger />
     </div>
-    <div class="gap-x-5 flex items-center">
+    <div class="flex items-center gap-x-5">
       <NuxtLink to="/">back</NuxtLink>
       <NuxtLink to="/result">next</NuxtLink>
     </div>

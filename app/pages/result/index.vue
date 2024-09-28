@@ -1,24 +1,18 @@
-<script setup lang="ts">
-const store = useCartStore()
-const { calculateResult } = storeToRefs(store)
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div>
     <StatusBar />
 
     <div class="px-4 pt-14">
-      <div class="flex items-center justify-center flex-col">
+      <div class="flex flex-col items-center justify-center">
         <NuxtImg src="/love.png" class="size-56" />
-        <div class="space-y-2 text-center pt-4">
-          <p class="font-bold text-[40px]">
-            {{ $formatNumber(calculateResult.finalSumPrice) }}
-            {{ calculateResult.currencyChoice.value?.currencySymbol }}
-          </p>
-          <p class="font-medium text-telegram-hint">Финальная стоимость</p>
+        <div class="space-y-2 pt-4 text-center">
+          <p class="text-[40px] font-bold"></p>
+          <p class="text-telegram-hint font-medium">Финальная стоимость</p>
         </div>
         <GradientContent class="mt-8">
-          <div class="flex items-center gap-x-3 text-telegram-text">
+          <div class="text-telegram-text flex items-center gap-x-3">
             <span class="text-[44px]">🏋️‍♀️</span>
             <div class="space-y-2">
               <p class="font-semibold">Лимит веса</p>
@@ -33,13 +27,10 @@ const { calculateResult } = storeToRefs(store)
         <Voucher />
 
         <GradientContent class="mb-10">
-          <div class="flex items-center gap-x-3 text-telegram-text">
+          <div class="text-telegram-text flex items-center gap-x-3">
             <span class="text-[44px]">📦</span>
-            <div class="space-y-2" v-if="calculateResult.deliveryTime">
-              <p class="font-semibold">
-                Доставим за ±{{ calculateResult.deliveryTime }}
-                {{ formatDay(calculateResult.deliveryTime) }}
-              </p>
+            <div class="space-y-2">
+              <p class="font-semibold"></p>
               <p class="text-sm">Посылка приедет в отделение Почты России.</p>
             </div>
           </div>

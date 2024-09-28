@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const cartStore = useCartStore()
-const { carts } = storeToRefs(cartStore)
+const cartStore = useCartStore();
+const { carts } = storeToRefs(cartStore);
 </script>
 
 <template>

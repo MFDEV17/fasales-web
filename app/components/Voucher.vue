@@ -1,26 +1,26 @@
 <script setup lang="ts">
-const open = ref(false)
+const open = ref(false);
 
-const store = useCartStore()
-const { calculateResult, storeCarts } = storeToRefs(store)
+const store = useCartStore();
+const { calculateResult, storeCarts } = storeToRefs(store);
 const {
   itemsPriceSumUserCurrency,
   itemsPriceSumEuro,
   itemWeightSum,
   currencyChoice,
   deliveryPriceCurrencyChoice,
-} = calculateResult.value
+} = calculateResult.value;
 </script>
 
 <template>
   <CollapsibleRoot
-    class="w-full flex flex-col justify-center items-center group mt-4"
+    class="group mt-4 flex w-full flex-col items-center justify-center"
     v-model:open="open"
   >
     <div
       class="bg-telegram-bg-secondary text-telegram-text w-full rounded-[20px] px-5"
     >
-      <ul class="space-y-2 pt-5 pb-5">
+      <ul class="space-y-2 pb-5 pt-5">
         <li class="flex items-center justify-between">
           <p>Стоимость товаров</p>
           <p>
@@ -52,11 +52,11 @@ const {
               price,
               categoryRef: { singleName, categoryName },
             } in storeCarts"
-            class="[counter-increment:chapter_1] before:[content:counter(chapter)'.'] flex items-center gap-x-2 text-telegram-hint"
+            class="text-telegram-hint flex items-center gap-x-2 [counter-increment:chapter_1] before:[content:counter(chapter)'.']"
             :key="itemId"
           >
             <div
-              class="flex items-center justify-between w-full text-telegram-text"
+              class="text-telegram-text flex w-full items-center justify-between"
             >
               <p>
                 {{ singleName || categoryName }}
@@ -79,11 +79,11 @@ const {
 
     <CollapsibleTrigger as-child>
       <div
-        class="flex items-center uppercase gap-x-2 cursor-pointer pt-3 text-telegram-hint pb-7"
+        class="text-telegram-hint flex cursor-pointer items-center gap-x-2 pb-7 pt-3 uppercase"
       >
-        <p>{{ open ? 'Меньше' : 'Большe' }}</p>
+        <p>{{ open ? "Меньше" : "Большe" }}</p>
         <IconsArrow
-          class="stroke-telegram-hint group-data-[state=open]:rotate-180 transition-transform duration-300"
+          class="stroke-telegram-hint transition-transform duration-300 group-data-[state=open]:rotate-180"
         />
       </div>
     </CollapsibleTrigger>

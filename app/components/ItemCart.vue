@@ -1,37 +1,37 @@
 <script setup lang="ts">
-import type { StoreItem } from '~/types/types'
+import type { StoreItem } from "~/types/types";
 
-const props = defineProps<{ cart: StoreItem }>()
+const props = defineProps<{ cart: StoreItem }>();
 
-const dialog = useDialogStore()
-const carts = useCartStore()
-const { currencyChoice } = storeToRefs(carts)
+const dialog = useDialogStore();
+const carts = useCartStore();
+const { currencyChoice } = storeToRefs(carts);
 
 const setUpdateProps = () => {
-  dialog.changeType('update')
-  dialog.setCartRef(props.cart)
-}
+  dialog.changeType("update");
+  dialog.setCartRef(props.cart);
+};
 
-const counterOpen = ref(false)
-const cartRef = ref(null)
+const counterOpen = ref(false);
+const cartRef = ref(null);
 
 onClickOutside(cartRef, (e) => {
-  counterOpen.value = false
-})
+  counterOpen.value = false;
+});
 </script>
 
 <template>
   <DialogTrigger as-child class="cursor-pointer">
     <div class="bg-telegram-bg-primary rounded-xl" @click="setUpdateProps">
       <div class="flex">
-        <div class="self-center px-4 shrink-0">
+        <div class="shrink-0 self-center px-4">
           <NuxtImg
             :src="urlFor(props.cart.categoryRef.categoryImg).url()"
             class="size-16"
           />
         </div>
         <div
-          class="border-l-telegram-bg-secondary grow border-l py-3 px-4 min-w-0"
+          class="border-l-telegram-bg-secondary min-w-0 grow border-l px-4 py-3"
         >
           <p class="font-semibold">
             {{
@@ -39,9 +39,9 @@ onClickOutside(cartRef, (e) => {
               props.cart.categoryRef.categoryName
             }}
           </p>
-          <div class="py-2 text-nowrap whitespace-nowrap">
+          <div class="whitespace-nowrap text-nowrap py-2">
             <p
-              class="text-2xl font-semibold overflow-auto"
+              class="overflow-auto text-2xl font-semibold"
               @click="(e) => e.stopPropagation()"
             >
               <span class="pr-0.5">€</span>{{ cart.price * cart.count }}
@@ -77,21 +77,21 @@ onClickOutside(cartRef, (e) => {
           <div class="relative">
             <div
               :data-isOpen="counterOpen"
-              class="absolute data-[isOpen=false]:pointer-events-none data-[isOpen=false]:opacity-0 data-[isOpen=true]:animate-counterShow data-[isOpen=true]:shadow-[0px_0px_12px_0px_rgba(0,0,0,0.2)] data-[isOpen=false]:animate-counterHide transition-all flex flex-col justify-between h-[88px] -top-[1.8rem] -left-[12%] w-10 bg-telegram-btn items-center rounded-[10px] z-10 py-1.5"
+              class="data-[isOpen=true]:animate-counterShow data-[isOpen=false]:animate-counterHide bg-telegram-btn absolute -left-[12%] -top-[1.8rem] z-10 flex h-[88px] w-10 flex-col items-center justify-between rounded-[10px] py-1.5 transition-all data-[isOpen=false]:pointer-events-none data-[isOpen=false]:opacity-0 data-[isOpen=true]:shadow-[0px_0px_12px_0px_rgba(0,0,0,0.2)]"
             >
               <IconsPlusButton
                 @click="
                   (e) => {
-                    e.stopPropagation()
-                    carts.incermentCartCount(cart.itemId)
+                    e.stopPropagation();
+                    carts.incermentCartCount(cart.itemId);
                   }
                 "
               />
               <IconsMinusButton
                 @click="
                   (e) => {
-                    e.stopPropagation()
-                    carts.decermentCartCount(cart.itemId)
+                    e.stopPropagation();
+                    carts.decermentCartCount(cart.itemId);
                   }
                 "
               />
@@ -99,11 +99,11 @@ onClickOutside(cartRef, (e) => {
             <button
               @click="
                 (e) => {
-                  e.stopPropagation()
-                  counterOpen = !counterOpen
+                  e.stopPropagation();
+                  counterOpen = !counterOpen;
                 }
               "
-              class="bg-telegram-bg-secondary text-telegram-hint inline-flex relative size-8 items-center justify-center rounded-lg font-medium z-20"
+              class="bg-telegram-bg-secondary text-telegram-hint relative z-20 inline-flex size-8 items-center justify-center rounded-lg font-medium"
             >
               {{ cart.count }}
             </button>
@@ -112,8 +112,8 @@ onClickOutside(cartRef, (e) => {
           <button
             @click="
               (e) => {
-                e.stopPropagation()
-                carts.removeCart(cart.itemId)
+                e.stopPropagation();
+                carts.removeCart(cart.itemId);
               }
             "
             class="inline-flex size-8 items-center justify-center rounded-lg bg-[#F25A5A]"

@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import type { BannedItem } from '~/types/BannedItem'
-
-const query = groq`*[_type == 'bannedCategories']{_id, bannedCategory}`
-const { data: bannedItems } = await useSanityQuery<BannedItem[]>(query)
+const cartStore = useCartStore();
+const { bannedItems } = storeToRefs(cartStore);
 </script>
 
 <template>

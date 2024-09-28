@@ -1,39 +1,39 @@
 <script setup lang="ts">
-import { storeItemSchema, type StoreItem } from '~/types/types'
+import { storeItemSchema, type StoreItem } from "~/types/types";
 
-const dialog = useDialogStore()
+const dialog = useDialogStore();
 
-const cartStore = useCartStore()
-const { shops, carts, categoryChoice, currencyChoice } = storeToRefs(cartStore)
+const cartStore = useCartStore();
+const { shops, carts, categoryChoice } = storeToRefs(cartStore);
 
 const { handleSubmit, setFieldValue } = useForm({
   validationSchema: toTypedSchema(storeItemSchema),
   initialValues: {
     weight: categoryChoice.value?.categoryDefWeight,
   },
-})
+});
 
-const link = useFieldValue<string>('productLink')
-const extraDeliveryPrice = useFieldValue<number>('extraDeliveryPrice')
+const link = useFieldValue<string>("productLink");
+const extraDeliveryPrice = useFieldValue<number>("extraDeliveryPrice");
 
 watchDebounced(
   link,
   () => {
-    const userURL = new URL(link.value).hostname
+    const userURL = new URL(link.value).hostname;
     const shop = shops.value.find(
       (i) => new URL(i.shopLink).hostname === userURL,
-    )
+    );
 
     if (shop) {
-      setFieldValue('extraDeliveryPrice', shop.deliveryPrice)
-      return
+      setFieldValue("extraDeliveryPrice", shop.deliveryPrice);
+      return;
     } else {
-      setFieldValue('extraDeliveryPrice', 0)
-      return
+      setFieldValue("extraDeliveryPrice", 0);
+      return;
     }
   },
   { debounce: 600 },
-)
+);
 
 const onSubmit = handleSubmit((val) => {
   if (categoryChoice.value) {
@@ -41,11 +41,11 @@ const onSubmit = handleSubmit((val) => {
       ...val,
       itemId: carts.value.length.toString(),
       categoryRef: categoryChoice.value,
-    }
-    cartStore.addCart(storeCart)
-    dialog.toggleOpenDialog()
+    };
+    cartStore.addCart(storeCart);
+    dialog.toggleOpenDialog();
   }
-})
+});
 </script>
 
 <template>
