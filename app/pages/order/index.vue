@@ -1,16 +1,16 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="pt-12 px-4 flex flex-col items-center justify-center">
+  <div class="flex flex-col items-center justify-center px-4 pt-12">
     <NuxtImg src="/list.png" />
-    <div class="pt-4 space-y-3 px-3">
+    <div class="space-y-3 px-3 pt-4">
       <p class="text-center text-2xl font-semibold">Оформление заказа</p>
       <p>
         Чтобы оформить заказ скопируйте текст ниже и отправьте его нашему
         <span class="underline">менеджеру</span>.
       </p>
     </div>
-    <div class="bg-telegram-bg-secondary p-5 rounded-[20px] mt-5">
+    <div class="bg-telegram-bg-secondary mt-5 rounded-[20px] p-5">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias error
       commodi esse quae aliquam quidem ipsam dolore harum totam voluptatum!
       Itaque ut error alias cumque. Ex neque, impedit quae ducimus laboriosam
@@ -18,7 +18,7 @@
     </div>
 
     <button
-      class="mt-5 bg-telegram-btn p-2 rounded-lg text-telegram-btn-text inline-flex items-center gap-x-0.5 uppercase text-sm"
+      class="bg-telegram-btn text-telegram-btn-text mt-5 inline-flex items-center gap-x-0.5 rounded-lg p-2 text-sm uppercase"
     >
       <IconsCopy />
       Скопировать

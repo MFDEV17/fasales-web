@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const dialog = useDialogStore()
-const { dialogType, dialogStep, dialogOpen } = storeToRefs(dialog)
+const dialog = useDialogStore();
+const { dialogType, dialogStep, dialogOpen } = storeToRefs(dialog);
 </script>
 
 <template>
@@ -25,9 +25,9 @@ const { dialogType, dialogStep, dialogOpen } = storeToRefs(dialog)
             </div>
             <p class="text-telegram-hint font-medium">
               {{
-                dialogType == 'create'
-                  ? 'Создание товара'
-                  : 'Редактирование товара'
+                dialogType == "create"
+                  ? "Создание товара"
+                  : "Редактирование товара"
               }}
             </p>
             <DialogClose as-child>

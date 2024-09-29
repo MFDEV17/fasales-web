@@ -22,7 +22,7 @@
   border-radius: 16px;
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     right: 0;

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { Category } from '~/types/types'
+import type { Category } from "~/types/types";
 
-const dialogStore = useDialogStore()
-const cartStore = useCartStore()
+const dialogStore = useDialogStore();
+const cartStore = useCartStore();
 
-const { categories } = storeToRefs(cartStore)
+const { categories } = storeToRefs(cartStore);
 
 const goToNextStep = (category: Category) => {
-  cartStore.setCategory(category)
-  dialogStore.goNextStep()
-}
+  cartStore.setCategory(category);
+  dialogStore.goNextStep();
+};
 </script>
 
 <template>

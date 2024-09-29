@@ -1,44 +1,33 @@
 <script setup lang="ts">
-const open = ref(false)
-
-const store = useCartStore()
-const { calculateResult, storeCarts } = storeToRefs(store)
-const {
-  itemsPriceSumUserCurrency,
-  itemsPriceSumEuro,
-  itemWeightSum,
-  currencyChoice,
-  deliveryPriceCurrencyChoice,
-} = calculateResult.value
+const open = ref(false);
+const store = useCartStore();
+const { getWeightSum, getDeliveryPrice, getCartsPrice, currencyChoice, carts } =
+  storeToRefs(store);
 </script>
 
 <template>
   <CollapsibleRoot
-    class="w-full flex flex-col justify-center items-center group mt-4"
+    class="group mt-4 flex w-full flex-col items-center justify-center"
     v-model:open="open"
   >
     <div
       class="bg-telegram-bg-secondary text-telegram-text w-full rounded-[20px] px-5"
     >
-      <ul class="space-y-2 pt-5 pb-5">
+      <ul class="space-y-2 pb-5 pt-5">
         <li class="flex items-center justify-between">
           <p>Стоимость товаров</p>
           <p>
-            {{ itemsPriceSumUserCurrency }} {{ currencyChoice?.currencySymbol }}
-            <span class="text-telegram-hint px-0.5">/</span>
-            <span class="pr-0.5">€</span>{{ itemsPriceSumEuro }}
+            {{ getCartsPrice?.sumEuro }} /
+            {{ getCartsPrice?.sumCurrencyChoice }}
           </p>
         </li>
         <li class="flex items-center justify-between">
           <p>Стоимость доставки</p>
-          <p>
-            {{ deliveryPriceCurrencyChoice
-            }}<span class="pl-0.5">{{ currencyChoice?.currencySymbol }}</span>
-          </p>
+          <p>{{ getDeliveryPrice }} {{ currencyChoice?.currencySymbol }}</p>
         </li>
         <li class="flex items-center justify-between">
           <p>Вес посылки</p>
-          <p>{{ itemWeightSum }} кг</p>
+          <p>{{ getWeightSum }} кг</p>
         </li>
       </ul>
       <CollapsibleContent
@@ -46,30 +35,21 @@ const {
       >
         <ol class="space-y-2 py-5 [counter-reset:chapter_0]">
           <li
-            v-for="{
-              itemId,
-              weight,
-              price,
-              categoryRef: { singleName, categoryName },
-            } in storeCarts"
-            class="[counter-increment:chapter_1] before:[content:counter(chapter)'.'] flex items-center gap-x-2 text-telegram-hint"
-            :key="itemId"
+            class="text-telegram-hint flex items-center gap-x-2 [counter-increment:chapter_1] before:[content:counter(chapter)'.']"
+            v-for="cart in carts"
           >
             <div
-              class="flex items-center justify-between w-full text-telegram-text"
+              class="text-telegram-text flex w-full items-center justify-between"
             >
               <p>
-                {{ singleName || categoryName }}
+                {{
+                  cart.categoryRef.singleName || cart.categoryRef.categoryName
+                }}
               </p>
-              <div class="flex items-center gap-x-1" v-if="currencyChoice">
-                <p>{{ weight }} кг</p>
+              <div class="flex items-center gap-x-1">
+                <p>{{ cart.weight }} кг</p>
                 <span class="text-telegram-hint">/</span>
-                <p>
-                  {{ price * currencyChoice?.amountToEuro
-                  }}<span class="pl-0.5">{{
-                    currencyChoice?.currencySymbol
-                  }}</span>
-                </p>
+                <p>{{ cart.price }} {{ currencyChoice?.currencySymbol }}</p>
               </div>
             </div>
           </li>
@@ -79,11 +59,11 @@ const {
 
     <CollapsibleTrigger as-child>
       <div
-        class="flex items-center uppercase gap-x-2 cursor-pointer pt-3 text-telegram-hint pb-7"
+        class="text-telegram-hint flex cursor-pointer items-center gap-x-2 pb-7 pt-3 uppercase"
       >
-        <p>{{ open ? 'Меньше' : 'Большe' }}</p>
+        <p>{{ open ? "Меньше" : "Большe" }}</p>
         <IconsArrow
-          class="stroke-telegram-hint group-data-[state=open]:rotate-180 transition-transform duration-300"
+          class="stroke-telegram-hint transition-transform duration-300 group-data-[state=open]:rotate-180"
         />
       </div>
     </CollapsibleTrigger>

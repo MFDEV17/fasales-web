@@ -19,7 +19,8 @@
     "@vueuse/nuxt": "^11.0.3",
     "groq": "^3.9.1",
     "radix-vue": "^1.9.5",
-    "tailwind-scrollbar-hide": "^1.1.7"
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "vue-tg": "^0.8.0"
   },
   "devDependencies": {
     "@nuxt/image": "^1.8.0",
@@ -29,6 +30,7 @@
     "@types/node": "^18.17.14",
     "nuxt": "^3.13.1",
     "postcss": "^8.4.39",
-    "postcss-nested": "^6.0.1"
+    "postcss-nested": "^6.0.1",
+    "prettier-plugin-tailwindcss": "^0.6.8"
   }
 }

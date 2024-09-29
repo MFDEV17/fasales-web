@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const store = useCartStore()
-const { currencyChoice } = storeToRefs(store)
+const store = useCartStore();
+const { currencyChoice } = storeToRefs(store);
 </script>
 
 <template>
   <div
-    class="p-4 bg-black text-telegram-bg-primary font-medium text-sm text-center"
+    class="text-telegram-bg-primary bg-black p-4 text-center text-sm font-medium"
   >
     <span class="pr-1">💶</span>
     Актуальный курс: {{ currencyChoice?.amountToEuro
