@@ -28,7 +28,6 @@ export const useCartStore = defineStore("cartStore", {
     generateCopyMsg(): string {
       let msg = "Привет! Хочу сделать заказ со следующих сайтов: \n\n";
 
-      let a = 1231;
       for (let [shopName, itemList] of this.generateShopList) {
         msg += `**${shopName}**\n\n`;
 
