@@ -59,6 +59,19 @@ export const useCartStore = defineStore("cartStore", {
       return shopList;
     },
 
+    getCartsListWithCurrencyChoice(): ({
+      euroPrice: number;
+      currencyChoicePrice: string;
+    } & StoreItem)[] {
+      return this.carts.map((c) => {
+        return {
+          ...c,
+          euroPrice: c.price,
+          currencyChoicePrice: `${c.price * this.currencyChoice?.amountToEuro!} ${this.currencyChoice?.currencySymbol}`,
+        };
+      });
+    },
+
     getCartsPrice():
       | { sumEuro: number; sumCurrencyChoice: number }
       | undefined {
