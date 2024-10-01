@@ -20,6 +20,7 @@
     "groq": "^3.9.1",
     "radix-vue": "^1.9.5",
     "tailwind-scrollbar-hide": "^1.1.7",
+    "vaul-vue": "^0.2.0",
     "vue-tg": "^0.8.0"
   },
   "devDependencies": {

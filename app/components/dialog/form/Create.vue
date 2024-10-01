@@ -49,7 +49,7 @@ const onSubmit = handleSubmit((val) => {
 </script>
 
 <template>
-  <div class="bg-telegram-bg-primary text-telegram-text min-h-full px-5 py-6">
+  <div class="bg-telegram-bg-primary text-telegram-text px-5 py-6">
     <div class="flex flex-col items-center justify-center">
       <NuxtImg
         :src="urlFor(categoryChoice.categoryImg).url()"

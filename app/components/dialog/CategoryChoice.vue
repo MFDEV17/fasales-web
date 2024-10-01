@@ -14,7 +14,7 @@ const goToNextStep = (category: Category) => {
 
 <template>
   <div
-    class="text-telegram-text grid grid-cols-3 place-content-around gap-y-6 px-3 py-6"
+    class="text-telegram-text mb-12 grid grid-cols-3 place-content-around gap-y-6 px-3 py-6"
   >
     <div
       class="flex cursor-pointer flex-col items-center space-y-2 text-sm font-medium"
