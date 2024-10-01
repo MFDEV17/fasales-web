@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-telegram-text grid min-h-dvh place-content-center place-items-center space-y-9 px-6"
+    class="text-telegram-text grid min-h-screen place-content-center place-items-center space-y-9 px-6"
   >
     <NuxtImg
       src="shaking-hand.png"

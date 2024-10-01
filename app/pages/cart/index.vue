@@ -16,7 +16,7 @@ await callOnce(cartStore.initState);
 <template>
   <DialogWrapper>
     <StatusBar />
-    <div class="bg-telegram-bg-secondary relative min-h-dvh w-full">
+    <div class="bg-telegram-bg-secondary relative min-h-screen w-full">
       <section class="bg-telegram-bg-primary px-5 py-6">
         <div class="space-y-5">
           <div class="space-y-3">
