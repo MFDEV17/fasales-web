@@ -17,7 +17,7 @@ const forwarded = useForwardPropsEmits(props, emits);
     <DrawerOverlay />
     <DrawerContent
       v-bind="forwarded"
-      class="bg-telegram-bg-secondary fixed inset-x-0 bottom-0 z-50 flex max-h-[80vh] flex-col rounded-t-[10px] border"
+      class="bg-telegram-bg-secondary fixed inset-x-0 bottom-0 z-50 flex max-h-[90vh] flex-col rounded-t-[10px] border"
     >
       <div
         class="bg-telegram-link mx-auto mb-2 mt-2 h-1 w-[100px] rounded-full"
