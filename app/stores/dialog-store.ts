@@ -19,7 +19,7 @@ export const useDialogStore = defineStore("dialog", {
       if (this.dialogStep > 1) this.dialogStep--;
     },
     resetDialog() {
-      this.dialogStep = 1;
+      setTimeout(() => (this.dialogStep = 1), 800);
     },
     toggleOpenDialog() {
       this.dialogOpen = !this.dialogOpen;

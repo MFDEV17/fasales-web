@@ -5,16 +5,17 @@ const dialogStore = useDialogStore();
 const cartStore = useCartStore();
 
 const { categories } = storeToRefs(cartStore);
+const dialog = useDialogStore();
 
 const goToNextStep = (category: Category) => {
-  cartStore.setCategory(category);
+  dialog.setCategoryRef(category);
   dialogStore.goNextStep();
 };
 </script>
 
 <template>
   <div
-    class="text-telegram-text grid grid-cols-3 place-content-around gap-y-6 px-3 py-6"
+    class="text-telegram-text mb-12 grid grid-cols-3 place-content-around gap-y-6 px-3 py-6"
   >
     <div
       class="flex cursor-pointer flex-col items-center space-y-2 text-sm font-medium"

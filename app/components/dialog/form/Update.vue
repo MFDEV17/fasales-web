@@ -1,60 +1,11 @@
 <script setup lang="ts">
-import { storeItemSchema } from "~/types/types";
-
-const dialog = useDialogStore();
-const { cartRef } = storeToRefs(dialog);
-
-const cartStore = useCartStore();
-const { shops } = storeToRefs(cartStore);
-
-const {
-  handleSubmit,
-  setFieldValue,
-  values: { weight },
-} = useForm({
-  validationSchema: toTypedSchema(storeItemSchema),
-  initialValues: {
-    weight: cartRef.value?.categoryRef.categoryDefWeight,
-    price: cartRef.value?.price,
-    size: cartRef.value?.size,
-    productLink: cartRef.value?.productLink,
-    count: cartRef.value?.count,
-    extraDeliveryPrice: cartRef.value?.extraDeliveryPrice,
-  },
-});
-
-const link = useFieldValue<string>("productLink");
-const extraDeliveryPrice = useFieldValue<number>("extraDeliveryPrice");
-
-watchDebounced(
-  link,
-  () => {
-    const userURL = new URL(link.value).hostname;
-    const urlShop = shops.value.find(
-      (i) => new URL(i.shopLink).hostname === userURL,
-    );
-
-    if (urlShop) {
-      setFieldValue("extraDeliveryPrice", urlShop.deliveryPrice);
-      return;
-    } else {
-      setFieldValue("extraDeliveryPrice", 0);
-      return;
-    }
-  },
-  { debounce: 600 },
-);
-
-const onSubmit = handleSubmit((val) => {
-  if (cartRef.value) {
-    cartStore.editCart(cartRef.value.itemId, val);
-    dialog.toggleOpenDialog();
-  }
-});
+const { onSubmit, extraDeliveryPrice, weight, cartRef } = useDialogForm();
 </script>
 
 <template>
-  <div class="bg-telegram-bg-primary text-telegram-text min-h-full px-5 py-6">
+  <div
+    class="bg-telegram-bg-primary text-telegram-text min-h-full overflow-y-scroll px-5 py-6"
+  >
     <div class="flex flex-col items-center justify-center">
       <NuxtImg
         v-if="cartRef?.categoryRef.categoryImg"
