@@ -5,9 +5,10 @@ const dialogStore = useDialogStore();
 const cartStore = useCartStore();
 
 const { categories } = storeToRefs(cartStore);
+const dialog = useDialogStore();
 
 const goToNextStep = (category: Category) => {
-  cartStore.setCategory(category);
+  dialog.setCategoryRef(category);
   dialogStore.goNextStep();
 };
 </script>
